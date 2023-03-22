@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码示例</title>
+</head>
+
+<body>
+    <p>请通过缩放浏览器窗口的宽度来观察效果（为了保证最佳效果，我们已经将图片的宽度设置为了100%）</p>
+    <picture>
+        <source media="(max-width:640px)" srcset="../images/flower-fairy(small).jpg">
+        <source media="(min-width:640px) and (max-width:960px)" srcset="../images/flower-fairy(medium).jpg">
+        <source media="(min-width:960px)" srcset="../images/flower-fairy(large).jpg">
+        <img width="100%" src="../images/flower-fairy.jpg" alt="默认图片">
+    </picture>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码示例</title>
+    <style>
+        @charset "utf-8";
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        table tr td {
+            border: 1px solid #2e2e2e;
+            height: 100px;
+        }
+
+        table tr td span,
+        table tr td img,
+        table tr td strong {
+            background-color: #aff394;
+            /*不论是block还是inline还是inline-block都是没问题的*/
+            display: block;
+        }
+
+        table tr.table-row-1 td {
+            vertical-align: baseline;
+        }
+
+        table tr.table-row-2 td {
+            vertical-align: top;
+        }
+
+        table tr.table-row-3 td {
+            vertical-align: middle;
+        }
+
+        table tr.table-row-4 td {
+            vertical-align: bottom;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tbody>
+            <tr class="table-row-1">
+                <td>断桥是否下过雪。</td>
+                <td><span>半城烟沙，兵临城下。</span></td>
+                <td><img src="./images/blue-rabbit.png" alt="图片加载中" title="蓝兔"></td>
+                <td><strong>若流芳千古，爱的人却反目。</strong></td>
+            </tr>
+            <tr class="table-row-2">
+                <td>断桥是否下过雪。</td>
+                <td><span>半城烟沙，兵临城下。</span></td>
+                <td><img src="./images/blue-rabbit.png" alt="图片加载中" title="蓝兔"></td>
+                <td><strong>若流芳千古，爱的人却反目。</strong></td>
+            </tr>
+            <tr class="table-row-3">
+                <td>断桥是否下过雪。</td>
+                <td><span>半城烟沙，兵临城下。</span></td>
+                <td><img src="./images/blue-rabbit.png" alt="图片加载中" title="蓝兔"></td>
+                <td><strong>若流芳千古，爱的人却反目。</strong></td>
+            </tr>
+            <tr class="table-row-4">
+                <td>断桥是否下过雪。</td>
+                <td><span>半城烟沙，兵临城下。</span></td>
+                <td><img src="./images/blue-rabbit.png" alt="图片加载中" title="蓝兔"></td>
+                <td><strong>若流芳千古，爱的人却反目。</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

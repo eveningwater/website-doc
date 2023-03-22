@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码示例</title>
+    <style>
+        @charset "utf-8";
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .text-overflow-inherit,
+        .text-overflow-ellipsis,
+        .text-overflow-clip {
+            width: 800px;
+            font: 20px "微软雅黑";
+
+        }
+
+        .text-overflow-inherit {
+            text-overflow: inherit;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .text-overflow-ellipsis {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .text-overflow-clip {
+            text-overflow: clip;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <article>
+        <p class="text-overflow-inherit">你的晚安，是下意识的恻隐，我留至夜深，治疗失眠梦呓那封手写信，留在行李箱底来不及，赋予它旅途的意义，若一切都已云烟成雨。</p>
+        <p class="text-overflow-ellipsis">你的晚安，是下意识的恻隐，我留至夜深，治疗失眠梦呓那封手写信，留在行李箱底来不及，赋予它旅途的意义，若一切都已云烟成雨。</p>
+        <p class="text-overflow-clip">你的晚安，是下意识的恻隐，我留至夜深，治疗失眠梦呓那封手写信，留在行李箱底来不及，赋予它旅途的意义，若一切都已云烟成雨。</p>
+    </article>
+</body>
+
+</html>

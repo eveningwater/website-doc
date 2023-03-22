@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码示例</title>
+    <style>
+        @font-face {
+            font-family: YCFont;
+            src: url('../fonts/YCXiaoGongZhuTi-Regular.ttf');
+        }
+
+        span {
+            margin-left: 15px;
+            color: #2396ef;
+            font-size: 25px;
+            font-family: YCFont;
+        }
+
+        span::before {
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        span:first-of-type::before {
+            /*2642是♂的字符实体十进制编号中的9794通过toString（16）转换而来的*/
+            content: "\2642";
+        }
+
+        span:last-of-type::before {
+            /*2640是♀中字符实体十进制编号中的9792通过toString（16）转换而来的*/
+            content: "\2640";
+        }
+    </style>
+</head>
+
+<body>
+    <span>男</span>
+    <span>女</span>
+</body>
+
+</html>

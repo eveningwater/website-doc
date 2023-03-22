@@ -1,0 +1,135 @@
+@charset "utf-8";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    overflow: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: #2396ef;
+    margin: 0 5px;
+    font-size: 15px;
+}
+
+a:hover,
+a:active {
+    color: #db4429;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+p {
+    line-height: 2em;
+}
+
+
+.ew-list-ul {
+    counter-reset: section;
+    padding: 4px 16px;
+}
+
+.ew-list-li {
+    margin-bottom: 1em;
+}
+
+.ew-list-li:before {
+    counter-increment: section;
+    content: counters(section, ".") ".";
+    margin-right: 0.1em;
+    font-size: 25px;
+    color: #e6a122;
+}
+
+.ew-tips {
+    background-color: #f6f7f8;
+    border-left: 3px solid #66b1ff;
+    padding: 3px 8px;
+    margin: 0.6em 0;
+}
+
+.container {
+    padding: 15px;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #fff;
+    position: relative;
+    background-image: url('../../images/bg-icon.png');
+}
+
+.container h1,
+.container h2 {
+    counter-increment: title-number;
+}
+
+.container [ id *="sec-"]::before {
+    content: counter(title-number, simp-chinese-informal) "、";
+}
+
+.mainToTop {
+    width: 45px;
+    height: 45px;
+    bottom: 28px;
+    right: 15px;
+    position: fixed;
+}
+
+.toTop {
+    border-radius: 5px;
+    background: url("https://www.eveningwater.com/static/image/ico-to-top.svg") no-repeat;
+    background-size: cover;
+    z-index: 999;
+    cursor: pointer;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: #c2c2c2;
+}
+
+::-webkit-scrollbar-thumb {
+    width: 5px;
+    height: 5px;
+    background-color: #1d1c1c;
+}
+
+
+.ew-h2 {
+    margin: 1em 0;
+}
+
+.ew-row {
+    position: relative;
+}
+
+.ew-row::before,
+.ew-row::after {
+    clear: both;
+    display: table;
+    content: "";
+    visibility: hidden;
+    height: 0;
+}
+
+.float-right {
+    float: right;
+}
+.ew-image {
+    margin: 1em auto;
+    cursor: zoom-in;
+    max-width: 1600px;
+    width: auto;
+    height: auto;
+    display: block;
+}

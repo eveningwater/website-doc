@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>getElementsByClassName</title>
+</head>
+<body>
+    <div class="high">123</div>
+    <div class="high">456</div>
+    <p>789</p>
+    <section>101112</section>
+    <script>
+        function getElementsByClassName(className){
+            const elements = document.getElementsByTagName("*"),
+                  regExp = new RegExp("(^|\\s)" + className + "($|\\s)"),
+                  result = [];
+            for(let i = 0,len = elements.length;i < len;i++){
+                const element = elements[i];
+                if(regExp.test(element.className)){
+                    result.push(element);
+                }
+            }
+            return result;
+        }
+        const high = getElementsByClassName('high');
+        high.forEach(item => item.style.color = 'red');
+    </script>
+</body>
+</html>

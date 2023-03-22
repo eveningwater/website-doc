@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码示例</title>
+    <style>
+        @charset "utf-8";
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        @font-face {
+            font-family: YCFont;
+            src: url('../fonts/YCXiaoGongZhuTi-Regular.ttf');
+        }
+
+        body,
+        input {
+            font: italic lighter 18px YCFont;
+        }
+
+        /* 文本居左对齐 */
+        .text-align-left {
+            text-align: left;
+        }
+
+        /* 文本居中对齐 */
+        .text-align-center {
+            text-align: center;
+        }
+
+        /* 文本居右对齐 */
+        .text-align-right {
+            text-align: right;
+        }
+
+        /*文本两端对齐*/
+        .text-align-justify {
+            width: 200px;
+            text-align: justify;
+            border: 1px dashed #445328;
+        }
+    </style>
+</head>
+
+<body>
+    <article>
+        <p class="text-align-left">依然记得从你口中说出再见坚决如铁，昏暗中有种烈日灼烧的错觉。</p>
+        <p class="text-align-center">当记忆的线缠绕过往支离破碎，是慌乱占据了心扉，有花儿伴着蝴蝶，孤雁可以双飞。</p>
+        <p class="text-align-right">最痴情的男人像海洋，爱在风暴里逞强，苦还是风平浪静的模样，卷起了依恋那么长。</p>
+        <p class="text-align-justify">
+            紧紧握着青花信物，信守着承诺，离别总在失意中度过，记忆油膏，反复涂抹无法愈合的伤口，你的回头划伤了沉默。（打开浏览器控制台使用键盘的↑或↓改变宽度属性，并且要很仔细的观察，才有可能看到文本两端是对齐的。）</p>
+    </article>
+    <article>
+        <p class="text-align-left"><span
+                style="color:#2396ef;">依然记得从你口中说出再见坚决如铁，昏暗中有种烈日灼烧的错觉。</span>（为了说明是文本行内标签，加上一个字体颜色以区分。）</p>
+        <p class="text-align-center"><input type="text" value="当记忆的线缠绕过往支离破碎，是慌乱占据了心扉，有花儿伴着蝴蝶，孤雁可以双飞。">字体和文本输入框都居中了的。
+        </p>
+        <p class="text-align-right"><a href="https://baike.baidu.com/item/%E7%94%B7%E4%BA%BA%E6%B5%B7%E6%B4%8B/16597868"
+                target="_blank" rel="noopener noreferrer">最痴情的男人像海洋，爱在风暴里逞强，苦还是风平浪静的模样，卷起了依恋那么长。</a>超链接和文本都居右了的。</p>
+        <a href="https://baike.baidu.com/item/%E5%85%B3%E4%B8%8D%E4%B8%8A%E7%9A%84%E7%AA%97/4284170?fr=aladdin"
+            target="_blank" rel="noopener noreferrer" class="text-align-center"
+            style="width: 300px;display: inline-block;">
+            我听见寒风扰乱了叶落，在寂寞阴暗长居住的巷弄。
+            <!--这里还插入了一张图片-->
+            <img src="./images/code-text-align-demo.jpg" alt="图片加载中" title="关不上的窗" />
+            (在这里超链接被转换成了行内块元素，行内块元素嵌套行内元素和文本，都是居中了的)。
+        </a>
+    </article>
+</body>
+
+</html>

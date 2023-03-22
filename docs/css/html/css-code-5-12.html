@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>代码示例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        section {
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        section>div {
+            width: 160px;
+            height: 96px;
+            background-color: #c4ebff;
+            border: 32px solid #2396ef;
+            /* border-color失效 */
+            border-image-source: url('../images/border-image_apple.png');
+            /* 1倍宽度 */
+            border-image-width: 1;
+            /* 使用单个苹果的宽高 */
+            border-image-slice: 32;
+            /* 不向外偏移 */
+            border-image-outset: 0;
+            float: left;
+            margin-right: 20px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        section>div:hover:before {
+            content: attr(data-value);
+            width: 160px;
+            height: 96px;
+            position: absolute;
+            left: -32px;
+            top: -32px;
+            color: #445ff4;
+            text-align: center;
+            line-height: 96px;
+            background: rgba(139, 125, 131, 0.6);
+        }
+
+        .bd-1 {
+            border-image-repeat: initial;
+        }
+
+        .bd-2 {
+            border-image-repeat: inherit;
+        }
+
+        .bd-3 {
+            border-image-repeat: stretch;
+        }
+
+        .bd-4 {
+            border-image-repeat: space;
+        }
+
+        .bd-5 {
+            border-image-repeat: round;
+        }
+
+        .bd-6 {
+            border-image-repeat: repeat;
+        }
+
+        .bd-7 {
+            border-image-repeat: unset;
+        }
+
+        .bd-8 {
+            border-image-repeat: round repeat;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="bd-1" data-value="initial;"></div>
+        <div class="bd-2" data-value="inherit;"></div>
+        <div class="bd-3" data-value="stretch"></div>
+        <div class="bd-4" data-value="space"></div>
+        <div class="bd-5" data-value="round"></div>
+        <div class="bd-6" data-value="repeat"></div>
+        <div class="bd-7" data-value="unset"></div>
+        <div class="bd-8" data-value="round repeat"></div>
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,219 @@
+@charset "utf-8";
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body,html{
+    height: 100%;
+    background: #fafafa;
+    color: #364149;
+    overflow: hidden;
+}
+.page{
+    width: calc(100% - 50px);
+    margin-left: 50px;
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
+}
+.anchor{
+    width: 50px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    text-align: center;
+    background-color: #334455;
+}
+.anchor ul{
+    padding: 6px 8px;
+    counter-reset: anchor-list;
+}
+.anchor .anchor-ul{
+    width: 200px;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: #fefafe;
+    display: none;
+}
+.anchor .anchor-ul li{
+    padding: 5px 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    user-select: none;
+    transition: all .3s;
+    cursor: pointer;
+    text-align: left;
+}
+.anchor-ul-li{
+    counter-increment: anchor-list;
+}
+.anchor-ul-li a::before{
+    content: counters(anchor-list,'.') '.';
+}
+.anchor .anchor-ul li:not(:first-child){
+    margin-top: 5px;
+}
+.anchor .anchor-ul li a{
+    display: block;
+    border-bottom: none;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.anchor .anchor-ul li a:hover,
+.anchor .anchor-ul li a:active{
+    color: #2396ef!important;
+}
+.anchor .anchor-tips{
+    width: 50px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    text-align: center;
+    line-height: 50px;
+    letter-spacing: 8px;
+    font-size: 20px;
+    writing-mode: tb;
+    color: #ffffff;
+    cursor: pointer;
+}
+.anchor .anchor-tips .anchor-right-image{
+    width: auto;
+    height: auto;
+}
+a{
+    text-decoration: none;
+    color: #239671;
+    cursor: alias;
+    border-bottom: 2px dotted #239671;
+    font-size: 18px;
+}
+a:hover {
+    color: #2396ef;
+    border-bottom-color: #2396ef;
+}
+ul,li{
+    list-style: none;
+}
+article{
+    width: 100%;
+    height: auto;
+    display: block;
+    padding: 20px;
+    background-color: #fefaf6;
+    box-sizing: border-box;
+    position: relative;
+}
+.meta-title-h1{
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+.meta-title-h2{
+    margin: 1em 0;
+}
+p{
+    margin: 2em;
+}
+.meta-table{
+    border-collapse: collapse;
+    width: 100%;
+    border-spacing: 0;
+    text-align: center;
+}
+.meta-table tr th,.meta-table tr td{
+    border: 1px solid #eee;
+    padding: 4px 3px;
+}
+.meta-table thead tr{
+    background-color: #e7c3db;
+}
+code{
+    width: 100%;
+    background-color: #364149;
+    display: block;
+    padding: 10px;
+    margin: 1.8em 0;
+    font-size: 20px;
+    color: #939ad4;
+    white-space: pre;
+    overflow: auto;
+    box-sizing: border-box;
+}
+.meta-ul{
+    padding: 8px;
+    border: 1px solid #999999;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+.meta-ul li{
+    margin:0.9em 0;
+}
+.meta-ul li em{
+    font-weight: 500;
+    font-size: 20px;
+    color: #292626;
+}
+.meta-ul .meta-dt-container{
+    padding: 8px;
+}
+.meta-ul .meta-dt-container .meta-dt-item{
+    text-indent: 30px;
+    font-size:18px;
+    margin: 0.8em 0;
+    counter-increment: meta-dt-item-number;
+}
+.meta-ul .meta-dt-container .meta-dt-item::before{
+    content:counter(meta-dt-item-number,simp-chinese-informal) "、";
+}
+.meta-image{
+    width: auto;
+    height: auto;
+    display: block;
+    margin:auto;
+    cursor: zoom-in;
+}
+.meta-ul dd{
+    counter-increment: dd-number;
+    text-indent: 20px;
+    margin-top: 0.9em;
+}
+.meta-ul dd:before{
+    content:counters(dd-number,'.') ".";
+}
+footer{
+    width: 100%;
+    height: 150px;
+    margin-top: 10px;
+}
+footer a{
+    font-size: 14px;
+    margin-left: 5px;
+    display: inline-block;
+}
+.mainToTop {
+    width: 45px;
+    height: 45px;
+    bottom: 28px;
+    right: 15px;
+    position: fixed;
+}
+.toTop  {
+    border-radius: 5px;
+    background: url("https://www.eveningwater.com/static/image/ico-to-top.svg") no-repeat;
+    background-size: cover;
+    z-index: 999;
+    cursor: pointer;
+}
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: #c2c2c2;
+}
+::-webkit-scrollbar-thumb {
+    width: 5px;
+    height: 5px;
+    background-color: #1d1c1c;
+}

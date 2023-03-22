@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码示例</title>
+    <style>
+        @charset "utf-8";
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        article {
+            padding: 15px;
+        }
+
+        article p {
+            margin-bottom: 20px;
+        }
+
+        article p a {
+            color: #2396ef;
+        }
+
+        /*无文本装饰线*/
+        article p.no-line a {
+            text-decoration: none;
+        }
+
+        /*上方有文本装饰线*/
+        article p.over-line a {
+            text-decoration: overline;
+        }
+
+        /*文本中间有装饰线*/
+        article p.line-through a {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+    <article>
+        <p class="no-line">
+            <a href="https://baike.baidu.com/item/%E7%94%9F%E6%97%A5%E7%A4%BC%E7%89%A9/2325277?fr=aladdin">
+                你曾说过分手还可以做朋友，我送你礼物你却不接受。（无文本装饰线）
+            </a>
+        </p>
+        <p class="under-line">
+            <a href="https://baike.baidu.com/item/%E5%9B%9E%E6%9D%A5%E6%88%91%E7%9A%84%E7%88%B1/1752458?fr=aladdin">
+                老天请给我机会，补偿心上人些许安慰，如果生命可以轮回，我宁愿时光倒退。（下方有文本装饰线）
+            </a>
+        </p>
+        <p class="over-line">
+            <a href="https://baike.baidu.com/item/%E7%88%B1%E6%B5%B7%E6%BB%94%E6%BB%94/717761?fr=aladdin">
+                一定是我不够好，所以你才想要逃，逃到天涯和海角，躲在别人的怀抱。（上方有文本装饰线）
+            </a>
+        </p>
+        <p class="line-through">
+            <a href="https://baike.baidu.com/item/%E7%97%B4%E5%BF%83%E7%BB%9D%E5%AF%B9/16696555?fr=aladdin">
+                为你付出那种伤心，你永远不了解，我又何苦勉强自己爱上你的一切。（文本中间显示装饰线）
+            </a>
+        </p>
+    </article>
+</body>
+
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BEM</title>
+    <link rel="stylesheet" href="https://www.eveningwater.com/static/plugin/code.min.css">
+    <link rel="stylesheet" href="./css/BEM.css">
+    <link rel="stylesheet" href="./css/anchor.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="ew-tips">
+            <div class="ew-row">
+                <b>特别声明：</b>此篇文章由<a href="http://t.qq.com/lybluesky0110" target="_blank" rel="noopener noreferrer"
+                    class="origin-article-a">David</a>根据<a href="https://twitter.com/csswizardry" target="_blank"
+                    rel="noopener noreferrer" class="origin-article-a">csswizardry</a>的英文文章原名《<a
+                    href="http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/"
+                    target="_blank" rel="noopener noreferrer" class="origin-article-a">MindBEMding – getting your head
+                    ’round BEM
+                    syntax</a>》进行翻译，整个译文带有我们自己的理解与思想，如果译得不好或不对之处还请同行朋友指点。如需转载此译文，需注明英文出处：
+                <a href="http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/" target="_blank"
+                    rel="noopener noreferrer"
+                    class="origin-article-a">http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax</a>以及作者相关信息
+            </div>
+            <div class="ew-row">
+                <div class="ew-col ew-col-24">
+                    <p class="float-right">
+                        ——作者：<a href="https://twitter.com/csswizardry" target="_blank" rel="noopener noreferrer"
+                            class="origin-article-a">csswizardry</a>
+                    </p>
+                </div>
+            </div>
+            <div class="ew-row">
+                <div class="ew-col ew-col-24">
+                    <p class="float-right">
+                        ——译者：<a href="http://t.qq.com/lybluesky0110" target="_blank" rel="noopener noreferrer"
+                            class="origin-article-a">David</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <h1 class="ew-h1 ew-mark" id="sec-1">BEM的起源与含义</h1>
+        <p>
+            人们问我最多的问题之一是在CSS类名中“--”和“__”是什么意思？它们的出现是源于<a href="http://bem.info/" target="_blank"
+                rel="noopener noreferrer" class="origin-article-a">BEM</a>和<a href="http://twitter.com/necolas"
+                target="_blank" rel="noopener noreferrer" class="origin-article-a">Nicolas Gallagher</a>。
+        </p>
+        <p>
+            BEM的意思就是块（block）、元素（element）、修饰符（modifier）,是由<a href="http://yandex.ru/" target="_blank"
+                rel="noopener noreferrer"
+                class="origin-article-a">Yandex</a>团队提出的一种前端命名方法论。这种巧妙的命名方法让你的CSS类对其他开发者来说更加透明而且更有意义。BEM命名约定更加严格，而且包含更多的信息，它们用于一个团队开发一个耗时的大项目。
+        </p>
+        <p>
+            重要的是要注意，我使用的基于BEM的命名方式是经过<a href="http://nicolasgallagher.com/about-html-semantics-front-end-architecture"
+                target="_blank" rel="noopener noreferrer" class="origin-article-a">Nicolas
+                Gallagher修改过的</a>。这篇文章中介绍的这种命名技术并不是原始的BEM，但却是一个我更喜欢的改进版。无论实际使用了什么样的符号，它们其实都是基于同样的BEM原则。
+        </p>
+        <p>
+            命名约定的模式如下：
+        </p>
+        <p>
+            <code class="ew-code ew-code-css">
+    .block{}
+    .block__element{}
+    .block--modifier{}
+            </code>
+        </p>
+        <ul class="ew-list-ul">
+            <li class="ew-list-li">
+                .block 代表了更高级别的抽象或组件。
+            </li>
+            <li class="ew-list-li">
+                .block__element 代表.block的后代，用于形成一个完整的.block的整体。
+            </li>
+            <li class="ew-list-li">
+                .block--modifier代表.block的不同状态或不同版本。
+            </li>
+        </ul>
+        <p>
+            之所以使用两个连字符和下划线而不是一个，是为了让你自己的块可以用单个连字符来界定，如：
+        </p>
+        <p>
+            <code class="ew-code ew-code-css">
+    .site-search{} /* 块 */
+    .site-search__field{} /* 元素 */
+    .site-search--full{} /* 修饰符 */	
+            </code>
+        </p>
+        <p>
+            BEM的关键是光凭名字就可以告诉其他开发者某个标记是用来干什么的。通过浏览HTML代码中的class属性，你就能够明白模块之间是如何关联的：有一些仅仅是组件，有一些则是这些组件的子孙或者是元素,还有一些是组件的其他形态或者是修饰符。我们用一个类比/模型来思考一下下面的这些元素是怎么关联的：
+        </p>
+        <p>
+            <code class="ew-code ew-code-css">                
+    .person{}
+    .person__hand{}
+    .person--female{}
+    .person--female__hand{}
+    .person__hand--left{}	
+            </code>
+        </p>
+        <p>
+            顶级块是‘person’，它拥有一些元素，如‘hand’。一个人也会有其他形态，比如女性，这种形态进而也会拥有它自己的元素。下面我们把他们写成‘常规’CSS:
+        </p>
+        <p>
+            <code class="ew-code ew-code-css">
+    .person{}
+    .hand{}
+    .female{}
+    .female-hand{}
+    .left-hand{}
+            </code>
+        </p>
+        <p>
+            这些‘常规’CSS都是有意义的，但是它们之间却有些脱节。就拿.female来说，是指女性人类还是某种雌性的动物？还有.hand，是在说一只钟表的指针（译注：英文中hand有指针的意思）？还是一只正在玩纸牌的手？使用BEM我们可以获得更多的描述和更加清晰的结构，单单通过我们代码中的命名就能知道元素之间的关联。BEM真是强大。 
+        </p>
+        <p>
+            再来看一个之前用‘常规’方式命名的.site-search的例子：
+        </p>
+        <p>
+            <code class="ew-code ew-code-html">
+    &lt;form class="site-search  full"&gt;
+        &lt;input type="text" class="field"&gt;
+        &lt;input type="Submit" value="Search" class="button"&gt;
+    &lt;/form&gt;	
+            </code>
+        </p>
+        <p>
+            这些CSS类名真是太不精确了，并不能告诉我们足够的信息。尽管我们可以用它们来完成工作，但它们确实非常含糊不清。用BEM记号法就会是下面这个样子：
+        </p>
+        <p>
+            <code class="ew-code ew-code-html">
+    &lt;form class="site-search  site-search--full"&gt;
+        &lt;input type="text" class="site-search__field"&gt;
+        &lt;input type="Submit" value="Search" class="site-search__button"&gt;
+    &lt;/form&gt;	
+            </code>
+        </p>
+        <p>
+            我们能清晰地看到有个叫.site-search的块，他内部是一个叫.site-search__field的元素。并且.site-search还有另外一种形态叫.site-search--full。
+            我们再来举个例子。如果你熟悉OOCSS（面向对象CSS），那么你对<a href="http://stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code" target="_blank" rel="noopener noreferrer" class="origin-article-a">media</a>对象一定也不陌生。用BEM的方式，media对象就会是下面这个样子：
+        </p>
+        <p>
+            <code class="ew-code ew-code-css">
+    .media{}
+    .media__img{}
+    .media__img--rev{}
+    .media__body{}	
+            </code>
+        </p>
+        <p>
+            从这种CSS的写法上我们就已经知道.media__img 和.media__body一定是位于.media内部的，而且.media__img--rev是.media__img的另一种形态。仅仅通过CSS选择器的名字我们就能获取到以上全部信息。
+        </p>
+        <p>
+            BEM的另外一个好处是针对下面这种情况：
+        </p>
+        <p>
+            <code class="ew-code ew-code-html">
+    &lt;div class="media"&gt;
+        &lt;img src="logo.png" alt="Foo Corp logo" class="img-rev"&gt;
+        &lt;div class="body"&gt;
+          &lt;h3 class="alpha"&gt;Welcome to Foo Corp&lt;/h3&gt;
+          &lt;p class="lede"&gt;Foo Corp is the best, seriously!&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;	
+            </code>
+        </p>
+        <p>
+            光从上面的代码来看，我们根本不明白.media和.alpha两个class彼此之间是如何相互关联的？同样我们也无从知晓.body和.lede之间，或者.img-rev 和.media之间各是什么关系？从这段HTML（除非你对那个media对象非常了解）中我们也不知道这个组件是由什么组成的和它还有什么其他的形态。如果我们用BEM方式重写这段代码：
+        </p>
+        <p>
+            <code class="ew-code ew-code-html">
+    &lt;div class="media"&gt;
+        &lt;img src="logo.png" alt="Foo Corp logo" class="media__img--rev"&gt;
+        &lt;div class="media__body"&gt;
+          &lt;h3 class="alpha"&gt;Welcome to Foo Corp&lt;/h3&gt;
+          &lt;p class="lede"&gt;Foo Corp is the best, seriously!&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;	
+            </code>
+        </p>
+        <p>
+            我们立马就能明白.media是一个块，.media__img--rev是一个加了修饰符的.media__img的变体，它是属于.media的元素。而.media__body是一个尚未被改变过的也是属于.media的元素。所有以上这些信息都通过它们的class名称就能明白，由此看来BEM确实非常实用。
+        </p>
+        <h1 class="ew-h1 ew-mark" id="sec-2">丑极了！</h1>
+        <p>
+            通常人们会认为BEM这种写法难看。我敢说，如果你仅仅是因为这种代码看上去不怎么好看而羞于使用它，那么你将错失最重要的东西。除非使用BEM让代码增加了不必要的维护困难，或者这么做确实让代码更难读了，那么你在使用它之前就要三思而行了。但是，如果只是“看起来有点怪”而事实上是一种有效的手段，那么我们在开发之前当然应该充分考虑它。
+        </p>
+        <p>
+            是，BEM看上去确实怪怪的，但是它的好处远远超过它外观上的那点瑕疵。
+        </p>
+        <p>
+            BEM可能看上去有点滑稽，而且有可能导致我们输入更长的文本（大部分编辑器都有自动补全功能，而且gzip压缩将会让我们消除对文件体积的担忧），但是它依旧强大。
+        </p>
+        <h1 class="ew-h1 ew-mark" id="sec-3">用还是不用BEM?</h1>
+        <p>
+            我在我的所有项目中都使用了BEM记号法，因为它的有效性已经被它自己一次又一次地证明。我也极力地建议别人使用BEM，因为它让所有东西之间的联系变得更加紧密，让团队甚至是你个人都能够更加容易地维护代码。
+        </p>
+        <p>
+            然而，当你真正使用BEM的时候，重要的是，请记住你没必要真的在每个地方都用上它。比如：
+        </p>
+        <p>
+            <code class="ew-code ew-code-css">
+   .caps{ text-transform:uppercase; }
+            </code>
+        </p>
+        <p>这条CSS不属于任何一个BEM范畴，它仅仅只是一条单独的样式。</p>
+        <p>另一个没有使用BEM的例子是：</p>
+        <p>
+            <code class="ew-code ew-code-css">
+    .site-logo{}
+            </code>
+        </p>
+        <p>
+            这是一个logo，我们可以把它写成BEM格式，像下面这样：
+        </p>
+        <p>
+            <code class="ew-code ew-code-css">          
+    .header{}
+    .header__logo{}
+            </code>
+        </p>
+        <p>
+            但我们没必要这么做。使用BEM的诀窍是，你要知道什么时候哪些东西是应该写成BEM格式的。因为某些东西确实是位于一个块的内部，但这并不意味它就是BEM中所说的元素。这个例子中，网站logo完全是恰巧在.header的内部，它也有可能在侧边栏或是页脚里面。一个元素的范围可能开始于任何上下文，因此你要确定只在你需要用到BEM的地方你才使用它。再看一个例子：
+        </p>
+        <p>
+            <code class="ew-code ew-code-html">
+    &lt;div class="content"&gt;
+        &lt;h1 class="content__headline"&gt;Lorem ipsum dolor...&lt;/h1&gt;
+    &lt;/div&gt;	
+            </code>
+        </p>
+        <p>
+            在这个例子里，我们也许仅仅只需要另一个class，可以叫它.headline；它的样式取决于它是如何被层叠的，因为它在.content的内部；或者它只是恰巧在.content的内部。如果它是后者（即恰巧在.content的内部，而不总是在）我们就不需要使用BEM。
+        </p>
+        <p>
+            然而，一切都有可能潜在地用到BEM。我们再来看一下.site-logo的例子，想象一下我们想要给网站增加一点圣诞节的气氛，所以我们想有一个圣诞版的logo。于是我们有了下面的代码：
+        </p>
+        <p>
+            <code class="ew-code ew-code-css">     
+    .site-logo{}
+    .site-logo--xmas{}
+            </code>
+        </p>
+        <p>
+            我们可以通过使用--修饰符来快速地为我们的代码构建另一个版本。
+        </p>
+        <p>
+            BEM最难的部分之一是明确作用域是从哪开始和到哪结束的，以及什么时候使用（不使用）它。随着接触的多了，有了经验积累，你慢慢就会知道怎么用，这些问题也不再是问题。
+        </p>
+        <h1 class="ew-h1 ew-mark" id="sec-4">结束语</h1>
+        <p>
+            所以，BEM（或BEM的变体）是一个非常有用，强大，简单的命名约定，以至于让你的前端代码更容易阅读和理解，更容易协作，更容易控制，更加健壮和明确而且更加严密。
+        </p>
+        <p>
+            尽管BEM看上去多少有点奇怪，但是无论什么项目，它对前端开发者都是一个巨有价值的工具。<a href="https://element.eleme.cn/#/zh-CN" target="_blank" rel="noopener noreferrer" class="origin-article-a">element UI</a>是一个使用BEM技术的典型代表。
+        </p>
+        <div class="ew-tips">
+            <h1 class="ew-mark ew-h1" id="sec-5">扩展阅读</h1>
+            <ul class="BEM-list-ul">
+                <li class="BEM-list-li">
+                    <a href="http://docs.emmet.io/filters/bem/" target="_blank" rel="noopener noreferrer" class="origin-article-a">Yandex BEM/OOCSS</a>
+                </li>
+                <li class="BEM-list-li">
+                    <a href="https://gist.github.com/necolas/1309546" target="_blank" rel="noopener noreferrer" class="origin-article-a">Template Components</a>
+                </li>
+                <li class="BEM-list-li">
+                    <a href="http://www.vanseodesign.com/css/block-element-modifier/" target="_blank" rel="noopener noreferrer" class="origin-article-a">BEM: The Block, Element, Modifier Approach To Decoupling HTML And CSS</a>
+                </li>
+                <li class="BEM-list-li">
+                    <a href="http://www.justinmarsan.com/blog/researches/2012/04/21/css-methodology-oocss-bem-smacss/" target="_blank" rel="noopener noreferrer" class="origin-article-a">CSS methodology and frameworks</a>
+                </li>
+                <li class="BEM-list-li">
+                    <a href="http://integralist.co.uk/Maintainable-CSS-with-BEM.html" target="_blank" rel="noopener noreferrer" class="origin-article-a">Maintainable CSS with BEM</a>
+                </li>
+                <li class="BEM-list-li">
+                    <a href="http://coding.smashingmagazine.com/2012/04/16/a-new-front-end-methodology-bem/" target="_blank" rel="noopener noreferrer" class="origin-article-a">A New Front-End Methodology: BEM</a>
+                </li>
+                <li class="BEM-list-li">
+                    <a href="http://bem.github.com/bem-method/html/all.en.html" target="_blank" rel="noopener noreferrer" class="origin-article-a">What is BEM?</a>
+                </li>
+                <li class="BEM-list-li">
+                    <a href="http://webdesign.tutsplus.com/tutorials/htmlcss-tutorials/rubbing-noses-with-inuit-css/" target="_blank" rel="noopener noreferrer" class="origin-article-a">Rubbing Noses With inuit.css</a>
+                </li>
+                <li class="BEM-list-li">
+                    <a href="http://www.alchemyindesign.com/notes/smacss-notes-on-usage.html" target="_blank" rel="noopener noreferrer" class="origin-article-a">SMACSS: Notes On Usage</a>
+                </li>
+                <li class="BEM-list-li">
+                    <a href="http://bem.info/method/definitions/" target="_blank" rel="noopener noreferrer" class="origin-article-a">What is BEM?</a>
+                </li>
+                <li class="BEM-list-li">
+                    <a href="http://bem.info/method/history/" target="_blank" rel="noopener noreferrer" class="origin-article-a">The History of BEM</a>
+                </li>
+                <li class="BEM-list-li">
+                    <a href="http://bem.info/articles/start-with-project-stub/" target="_blank" rel="noopener noreferrer" class="origin-article-a">Start developing BEM with project-stub</a>
+                </li>
+            </ul>
+        </div>
+        <p class="ew-tips">
+            <b>英文原文：</b><a href="http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/" target="_blank" rel="noopener noreferrer" class="origin-article-a">http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/</a>
+        </p>
+        <p class="ew-tips">
+            <b>中文译文：</b><a href="http://www.w3cplus.com/css/mindbemding-getting-your-head-round-bem-syntax.html" target="_blank" rel="noopener noreferrer" class="origin-article-a">http://www.w3cplus.com/css/mindbemding-getting-your-head-round-bem-syntax.html</a>
+        </p>
+    </div>
+    <div class="toTop mainToTop"></div>
+</body>
+<script src="https://www.eveningwater.com/static/plugin/jquery.min.js"></script>
+<script src="https://www.eveningwater.com/static/plugin/code.min.js"></script>
+<script src="https://www.eveningwater.com/static/plugin/viewer.min.js"></script>
+<script src="./js/anchor.js"></script>
+<script src="./js/index.js"></script>
+</html>

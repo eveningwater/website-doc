@@ -1,0 +1,161 @@
+@charset "utf-8";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    overflow: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: #2396ef;
+    margin: 0 5px;
+    font-size: 15px;
+}
+
+a:hover,
+a:active {
+    color: #db4429;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+p {
+    line-height: 2em;
+}
+
+
+.ew-list-ul {
+    counter-reset: section;
+    padding: 4px 16px;
+}
+
+.ew-list-li {
+    margin-bottom: 1em;
+}
+
+.ew-list-li:before {
+    counter-increment: section;
+    content: counters(section, ".") ".";
+    margin-right: 0.1em;
+    font-size: 25px;
+    color: #e6a122;
+}
+
+.ew-tips {
+    background-color: #f6f7f8;
+    border-left: 3px solid #66b1ff;
+    padding: 3px 8px;
+    margin: 0.6em 0;
+}
+
+.ew-iframe {
+    margin-left: 2em;
+    margin-right: 2em;
+    border: 1px solid #8f9091;
+    border-radius: 15px;
+    width: calc(100% - 4em);
+    padding: 15px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    min-height: 300px;
+}
+
+.ew-h1 {
+    margin: .4em 0;
+}
+
+.ew-image {
+    margin: 1em auto;
+    cursor: zoom-in;
+    max-width: 1600px;
+    display: block;
+}
+
+.container {
+    padding: 15px;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #fff;
+    position: relative;
+}
+
+.container h1 {
+    counter-increment: title-number;
+}
+
+.container h1[ id *="sec-"]::before {
+    content: counter(title-number, simp-chinese-informal) "、";
+}
+
+.ew-kbd {
+    user-select: none;
+    padding: 2px 3px;
+    margin: 1px 3px;
+    background-color: #f2f1f4;
+    border-radius: 2px;
+    cursor: default;
+    box-shadow: #bebebf 0 1px 0 2px;
+    transition: all .4s;
+}
+
+.ew-kbd:active {
+    background-color: #efefef;
+    box-shadow: #626263 0 0 0 1px;
+}
+
+.mainToTop {
+    width: 45px;
+    height: 45px;
+    bottom: 28px;
+    right: 15px;
+    position: fixed;
+}
+
+.toTop {
+    border-radius: 5px;
+    background: url("https://www.eveningwater.com/static/image/ico-to-top.svg") no-repeat;
+    background-size: cover;
+    z-index: 999;
+    cursor: pointer;
+}
+
+.dynamicAnchor>ul {
+    height: auto;
+    overflow: hidden;
+}
+
+.ew-row {
+    margin: 1em 0;
+}
+
+@media screen and (max-width:765px) {
+    .ew-row>.ew-col {
+        width: 100%;
+    }
+
+    .dynamicAnchor ul li a {
+        font-size: 14px;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: #f0f0f0;
+}
+
+::-webkit-scrollbar-thumb {
+    width: 5px;
+    height: 5px;
+    background-color: #858585;
+}

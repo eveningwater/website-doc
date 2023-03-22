@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码示例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            width: 300px;
+            height: 300px;
+            outline: none;
+            border: 2px solid #2396ef;
+            border-radius: 4px;
+            resize: none;
+            float: left;
+            margin-top: 15px;
+            padding: 8px;
+        }
+
+        div:focus {
+            box-shadow: 0 0 5px #113356;
+        }
+
+        div:last-of-type {
+            margin-left: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div spellcheck="true" contenteditable="true">让我变成行星守护你，可以躲在云层偷偷照亮你。（有语法检查）</div>
+    <div spellcheck="false" contenteditable="true">这是一片很寂寞的天，下着有些伤心的雨。这是一个很在乎的我，和一个无所谓的结局。（无语法检查）</div>
+</body>
+
+</html>

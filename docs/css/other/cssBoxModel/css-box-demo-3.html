@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css盒子示例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            width: 300px;
+            height: 200px;
+            background-color: #2396ef;
+            /*盒子模型设置为w3c标准盒子模型*/
+            box-sizing: content-box;
+            padding: 30px;
+            border: 1px solid #223354;
+            /*方便查看效果我们让背景色只铺满盒子的内容区域*/
+            background-clip: content-box;
+        }
+    </style>
+</head>
+
+<body>
+    <div></div>
+</body>
+</html>

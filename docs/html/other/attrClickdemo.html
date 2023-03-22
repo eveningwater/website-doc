@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+        <title>属性点击示例</title>
+		<style>
+			body,html,div{
+				margin: 0;padding: 0;
+				user-select: none;
+				box-sizing: border-box;
+			}
+			#skillList {
+				width: 100%;height: 70px;
+				text-align: center;
+			}
+			#skillList > div{
+				cursor: pointer;
+			}
+			#showInfo {
+				width: 100%;
+				height: 200px;
+			}
+		</style>
+</head>
+	<body>
+		<div id="skillList">
+			<div data-color="#d98e00">HTML</div>
+			<div data-color="#0096d9">CSS</div>
+			<div data-color="#00c72e">JavaScript</div>
+		</div>    
+		<div id="showInfo"></div>
+		<script type="text/javascript">
+			var divColor = document.getElementById("skillList").children,
+				showInfo = document.getElementById("showInfo"); 
+			for(var i = 0;i < divColor.length;i++){
+				(function(i){
+                    // 闭包
+					divColor[i].onclick = function(){
+						changeStyle(i);
+					}
+				})(i);
+			}
+			function changeStyle(i){
+				var dataColor = divColor[i].getAttribute("data-color");
+				showInfo.textContent = divColor[i].textContent;
+				showInfo.style.backgroundColor = dataColor;
+				showInfo.style.color ='#fff';
+			}
+		</script>
+	</body>
+</html>

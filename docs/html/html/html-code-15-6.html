@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码示例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        [data-userform] {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        [data-userform]>div {
+            margin: 14px 0;
+        }
+
+        [data-userform]>div>label {
+            width: 100px;
+            text-align: right;
+            display: inline-block;
+        }
+
+        [data-userform]>div>input {
+            width: 250px;
+            height: 25px;
+            outline: none;
+            border: 1px solid #364b45;
+            border-radius: 4px;
+            transition: all .5s;
+        }
+
+        [data-userform]>div>input:focus {
+            box-shadow: 0 0 5px #2396ef;
+            border-color: #2396ef;
+        }
+
+        [data-userform]>div>input[data-password] {
+            background-color: #f3cbdf;
+        }
+    </style>
+</head>
+
+<body>
+    <form data-userform>
+        <div>
+            <label>用户名:</label>
+            <input type="text" data-user="eveningwater" />
+        </div>
+        <div>
+            <label>密码:</label>
+            <input type="password" data-password="123456" />
+        </div>
+        <div>
+            <label>邮箱:</label>
+            <input type="email" data-email="854806732@qq.com" />
+        </div>
+    </form>
+    <script>
+        // 获取用户名以及用户名的私有数据属性
+        var userName = document.querySelector("[data-user]");
+        var userNameProp = userName.getAttribute('data-user');
+        // 获取密码以及密码的私有数据属性
+        var password = document.querySelector("[data-password]");
+        var passwordProp = password.getAttribute('data-password');
+        // 获取邮箱以及邮箱的私有数据属性
+        var email = document.querySelector("[data-email]");
+        var emailProp = email.getAttribute('data-email');
+        // 分别赋值
+        userName.value = userNameProp;
+        password.value = passwordProp;
+        email.value = emailProp;
+    </script>
+</body>
+
+</html>

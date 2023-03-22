@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vertical-align文本垂直居中问题</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body,html {
+            font:20px "微软雅黑";
+        }
+        div {
+            background-color: #339876;
+            border: 1px inset #445529;
+            box-sizing: border-box;
+            height: 200px;
+        }
+        div span {
+            color: #ffffff;
+            border-right: 1px solid #efeff0;
+            border-bottom: 1px solid #efeff0;
+        }
+        span:first-child {
+            font-size: 25px;
+            vertical-align: top;
+        }
+        span:nth-child(2){
+            font-size: 26px;
+            vertical-align: middle;
+        }
+        span:last-child {
+            font-size: 25px;
+            vertical-align: bottom;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <span>我处在顶部(top)</span>
+        <span>我居然不垂直居中(middle)</span>
+        <span>我居然不在底部(bottom)</span>
+    </div>
+</body>
+</html>

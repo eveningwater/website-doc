@@ -1,0 +1,58 @@
+.hljs-tag {
+    color:#a4adb4;
+}
+.hljs-name {
+    color:#ec3f0a;
+}
+.hljs-function {
+    color:#f32bb7;
+}
+.hljs-selector-class {
+    color:#e29696;
+}
+.hljs-keyword {
+    color:#2396ef;
+}
+.hljs-selector-tag {
+    color:#5d0065;
+}
+.hljs-attr {
+    color:#f2d113;
+}
+.hljs-built_in {
+    color:#098655;
+}
+.hljs-title {
+    color: #4b23ff;
+}
+.hljs-params {
+    color:#535455;
+}
+.hljs-property {
+    color:#263149;
+}
+.hljs-string {
+    color:#565f09;
+}
+.hljs-comment {
+    color:#239923;
+    font-size: 14px;
+}
+.hljs-literal {
+    color:#f58e97;
+}
+.hljs-number {
+    color:#f08010;
+}
+.hljs-meta-string {
+    color:#987654;
+}
+.hljs-meta {
+    color: #b35e09;
+}
+.hljs-attribute {
+    color: #dd3910;
+}
+.hljs-selector-id {
+    color: #db0202;
+}

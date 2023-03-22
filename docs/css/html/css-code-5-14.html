@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>代码示例</title>
+    <style>
+        @charset "utf-8";
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        section {
+            width: 100%;
+            padding: 40px;
+        }
+
+        section:after {
+            content: "";
+            height: 0;
+            visibility: hidden;
+            display: block;
+            clear: both;
+        }
+
+        section>p,
+        section>div {
+            float: left;
+            margin: 1em 15px 1em 0;
+        }
+
+        section>div {
+            width: 200px;
+            height: 180px;
+            background-color: #996723;
+        }
+
+        section>p {
+            width: 200px;
+            height: 200px;
+            background-color: #ff2389;
+        }
+
+        section>div:first-of-type {
+            border-radius: 15px;
+        }
+
+        section>div:nth-of-type(2) {
+            border-radius: 30px;
+        }
+
+        section>div:nth-of-type(3) {
+            border-radius: 200px / 100px;
+        }
+
+        section>div:last-of-type {
+            border-radius: 50%;
+        }
+
+        section>p:first-of-type {
+            border-top-left-radius: 55px;
+        }
+
+        section>p:nth-of-type(2) {
+            border-top-left-radius: 130px;
+            border-bottom-right-radius: 130px;
+        }
+
+        section>p:nth-of-type(3) {
+            border-top-left-radius: 50%;
+            border-top-right-radius: 50%;
+            border-bottom-left-radius: 50%;
+            border-bottom-right-radius: 50%;
+            /* 等价于border-radius:50% */
+        }
+
+        section>p:last-of-type {
+            border-top-left-radius: 200px 180px;
+            border-bottom-right-radius: 200px 180px;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+    </section>
+</body>
+
+</html>

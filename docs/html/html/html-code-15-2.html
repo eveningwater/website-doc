@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码示例</title>
+    <style>
+        button:focus {
+            border: 1px solid #2396ef;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <div>
+            <label>用户名:</label>
+            <!--可以按alt加上a键使这个文本框获取焦点-->
+            <input type="text" accesskey="a" />
+        </div>
+        <div>
+            <label>密码:</label>
+            <!--可以按alt加上b键使这个文本框获取焦点-->
+            <input type="password" accesskey="b" />
+        </div>
+        <div>
+            <!--可以按alt加上c键使这个按钮获取焦点-->
+            <button type="button" accesskey="c">提交</button>
+        </div>
+    </form>
+</body>
+
+</html>

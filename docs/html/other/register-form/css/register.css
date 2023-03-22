@@ -1,0 +1,224 @@
+@charset "utf-8";
+
+/**
+* 功能：用户注册样式设置
+**/
+/***************公共样式********************/
+/*初始化间距*/
+body,
+html,
+div,
+input,
+label,
+button,
+textarea,
+p {
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/*标准盒子模型*/
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+/*块级元素*/
+/*消除边框线*/
+input,
+button,
+textarea,
+select {
+    outline: none;
+}
+
+/*手型按钮*/
+input,
+button,
+span {
+    cursor: pointer;
+}
+
+/*绝对定位*/
+.popBox {
+    position: absolute;
+}
+
+/*相对定位*/
+/*固定定位*/
+.popBox span,
+main {
+    position: fixed;
+}
+
+/***************细节样式********************/
+/*页面基本样式*/
+body {
+    height: 100%;
+    background-color: rgb(241, 235, 235);
+    font: 16px "微软雅黑";
+}
+
+main {
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+/*表单*/
+form {
+    width: 400px;
+    margin: 20px auto;
+}
+
+form>div {
+    margin-bottom: 20px;
+}
+
+form>div p {
+    text-align: center;
+    margin-top: 8px;
+}
+
+form>div>label:not([for]) {
+    width: 80px;
+    text-align: right;
+    display: inline-block;
+    vertical-align: top;
+}
+
+input[type="email"],
+input[type="text"],
+input[type="tel"],
+input[type="password"],
+input[type="url"],
+select,
+textarea {
+    background-color: #f5eeee;
+    box-shadow: 0 0 5px rgba(239, 212, 104, 0.72);
+    font: 18px "宋体";
+    color: #000;
+}
+
+input:not([type="radio"]),
+textarea,
+select {
+    width: 300px;
+    border: 1px solid rgb(163, 135, 135);
+    border-radius: 5px;
+    padding: 8px 10px;
+}
+
+input[type="email"],
+input[type="text"],
+input[type="tel"],
+input[type="password"],
+input[type="url"] {
+    height: 32px;
+}
+
+select {
+    height: 38px;
+}
+
+textarea {
+    height: 150px;
+    resize: none;
+    overflow-y: auto;
+}
+
+form>div>label[for],
+form>div>input[type="radio"] {
+    margin-left: 8px;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    font: normal 14px "华文琥珀";
+    color: #666;
+}
+
+form>div:last-of-type {
+    text-align: center;
+}
+
+button {
+    background-color: #fff;
+    border: 1px solid rgb(212, 208, 208);
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+button[id="submit"] {
+    margin-right: 15px;
+}
+
+button[type="reset"] {
+    margin-left: 15px;
+}
+
+button:hover,
+button:active {
+    color: #a39191;
+}
+
+p {
+    color: #f00;
+    display: none;
+}
+
+/*弹出框*/
+.popBox {
+    width: 300px;
+    height: 200px;
+    background-color: rgba(160, 79, 79, .3);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    border-radius: 5px;
+    z-index: 999;
+}
+
+.popBox .popBox-content {
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    margin: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popBox .popBox-content i {
+    font: italic bold 20px "幼圆";
+    color: #f7a5a5;
+}
+
+.popBox span {
+    width: 35px;
+    height: 35px;
+    background-color: transparent;
+    border-radius: 50%;
+    font: 25px/35px "华文琥珀";
+    text-align: center;
+    color: rgb(155, 151, 151);
+    right: -13px;
+    top: -12px;
+    z-index: 20;
+}
+
+.popBox span:hover,
+.popBox span:active {
+    color: rgb(133, 57, 57);
+}
+
+.blur {
+    filter: blur(25px);
+}

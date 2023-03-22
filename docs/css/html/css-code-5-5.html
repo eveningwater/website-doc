@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>代码示例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .ie-box,
+        .w3c-box {
+            width: 200px;
+            height: 200px;
+            border-radius: 5px;
+            border-style: dashed;
+            border-width: 2px;
+            padding: 10px;
+            position: relative;
+            transition: all .2s;
+            cursor: pointer;
+            margin: 2em;
+            float: left;
+        }
+
+        .ie-box:hover::before,
+        .w3c-box:hover::before {
+            content: attr(data-title);
+            width: 100%;
+            position: absolute;
+            background-color: #778823;
+            color: #ffffff;
+            font: 14px "微软雅黑";
+            padding: 10px;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .ie-box {
+            border-color: #eb94eb;
+            background-color: #b627ee;
+            color: #fafafa;
+            box-sizing: border-box;
+        }
+
+        .w3c-box {
+            border-color: #2299ff;
+            background-color: #0c678b;
+            color: #c28b43;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ie-box" data-title="该元素盒子模型设置为IE标准盒子模型，并且内间距为10px;">猪！你的鼻子有两个孔，感冒时的你还挂着鼻涕牛牛，猪！你有着黑漆漆的眼，望呀望呀望也看不到边。</div>
+    <div class="w3c-box" data-title="该元素盒子模型设置为w3c标准盒子模型，并且内间距为10px;">清晨问候的目光，午后慵懒的想象，年轻守护的脸庞，庄典夺目的衣裳。</div>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>块级元素的首个子元素的margin-top会让父元素也执行的问题</title>
+    <style>
+        html,body {
+            margin: 0;
+            padding: 0;
+        }
+        body:after{
+            content: ".";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+        html {
+            background-color: #ffffff;
+        }
+        body {
+            background-color: #2396ef;
+        }
+        div {
+            background-color: #002387;
+        }
+        p{
+            margin: 50px 0;
+            color: #ffffff;
+            background-color: #aa24ee;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p>我是div下的子元素p，我的margin:50px 0;(也就是上下外间距各50px)，打开浏览器控制台查看body的位置，居然是蓝色那一块区域。</p>
+    </div>
+</body>
+</html>

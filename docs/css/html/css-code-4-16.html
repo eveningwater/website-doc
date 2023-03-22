@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码示例</title>
+    <style>
+        @charset "utf-8";
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        p {
+            width: 280px;
+            border: 2px groove rgb(194, 197, 12);
+            margin-right: 20px;
+            float: left;
+        }
+
+        p:first-child {
+            word-break: normal;
+        }
+
+        p:nth-child(2) {
+            word-break: break-all;
+        }
+
+        p:nth-child(3) {
+            word-break: keep-all;
+        }
+
+        p:last-child {
+            word-wrap: break-word;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <p>寂寞登高楼，遥雁近飞蝇。 水闻浪涛声，灯看光明影。 青山暗烟路，绿树敌清风。 欲知鸿归未？且寄自然情。 word-break:normal;</p>
+        <p>寂寞登高楼，遥雁近飞蝇。 水闻浪涛声，灯看光明影。 青山暗烟路，绿树敌清风。 欲知鸿归未？且寄自然情。 word-break:break-all;</p>
+        <p>寂寞登高楼，遥雁近飞蝇。 水闻浪涛声，灯看光明影。 青山暗烟路，绿树敌清风。 欲知鸿归未？且寄自然情。 word-break:keep:all</p>
+        <p>寂寞登高楼，遥雁近飞蝇。 水闻浪涛声，灯看光明影。 青山暗烟路，绿树敌清风。 欲知鸿归未？且寄自然情。 word-wrap:break-word;</p>
+    </div>
+</body>
+
+</html>

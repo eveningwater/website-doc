@@ -1,0 +1,16 @@
+.container {
+    padding: 15px;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #fff;
+    background-image: url('https://www.eveningwater.com/docs/docs/css/images/bg-icon.png');
+}
+
+.container h1 {
+    counter-increment: title-number;
+}
+
+.container h1[ id *="sec-"]::before {
+    content: counter(title-number, simp-chinese-informal) "、";
+}

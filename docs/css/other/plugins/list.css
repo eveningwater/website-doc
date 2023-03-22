@@ -1,0 +1,21 @@
+ul,
+li {
+    list-style: none;
+}
+
+.ew-list-ul {
+    counter-reset: section;
+    padding: 4px 16px;
+}
+
+.ew-list-li {
+    margin-bottom: 1em;
+}
+
+.ew-list-li:before {
+    counter-increment: section;
+    content: counters(section, ".") ".";
+    margin-right: 0.1em;
+    font-size: 25px;
+    color: #e6a122;
+}

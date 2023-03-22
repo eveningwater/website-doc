@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>百分比宽度</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body,html {
+            font:20px "微软雅黑";
+        }
+        h3 {
+            text-align: center;
+        }
+        section,div,p {
+            box-sizing: border-box;
+        }
+        section {
+            width: 90%;
+            height: 480px;
+            background-color: #442367;
+            margin: 0 auto;
+            padding-top: 50px;
+            text-align: center;
+            font-size: 24px;
+            color: #ffffff;
+        }
+        section > div {
+            width: 90%;
+            height: 380px;
+            margin: 0 auto;
+            background-color: #997766;
+            padding-top: 20px;
+        }
+        section > div p:first-child {
+            width: 90%;
+            height: 130px;
+            background-color: #26496d;
+            margin: 10px auto;
+            padding-top: 30px;
+        }
+        section > div p:last-child {
+            width: 20%;
+            height: 130px;
+            background-color: #007856;
+            margin: 10px auto;
+            padding-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h3>请改变浏览器窗口大小来浏览效果</h3>
+    <section>
+        width:90%;的section元素
+        <div>
+            width:90%;的div元素
+            <p>width:90%的p元素</p>
+            <p>width:20%;的p元素</p>
+        </div>
+    </section>
+</body>
+</html>

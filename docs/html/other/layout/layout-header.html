@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>页面布局</title>
+    <style>
+        html,
+        body,
+        header,
+        main,
+        aside,
+        div,
+        footer {
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width: 960px;
+            margin: auto;
+        }
+        header,
+        main,
+        aside,
+        footer {
+            display: block;
+            text-align: center;
+            font-size: 20px;
+            color: #ffffff;
+        }
+
+        header {
+            width: 100%;
+            height: 40px;
+            background-color: #239923;
+            line-height: 40px;
+
+        }
+
+        .layout {
+            display: flex;
+        }
+
+        main,
+        aside,
+        footer {
+            background-color: #424146;
+        }
+
+        main,
+        aside {
+            height: 400px;
+            line-height: 400px;
+        }
+
+        main {
+            width: calc(100% - 200px);
+            margin: 20px 20px 20px 0;
+        }
+
+        aside {
+            width: 200px;
+            margin: 20px 0 20px 0;
+            flex-grow: 1;
+        }
+
+        footer {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+        }
+        @media screen and (max-width:960px){
+            .box{
+                width: 100%;
+            }
+            main{
+                width: calc(100% - 80px);
+            }
+            aside{
+                width: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <header>
+            header
+        </header>
+        <div class="layout">
+            <main>
+                main
+            </main>
+            <aside>
+                aside
+            </aside>
+        </div>
+        <footer>
+            footer
+        </footer>
+    </div>
+</body>
+
+</html>

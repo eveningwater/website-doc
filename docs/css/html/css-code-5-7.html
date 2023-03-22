@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>代码示例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        section>div>span.inline {
+            background-color: #3374ff;
+            color: #ffffff;
+            padding: 10px;
+            border: 2px dashed #006745;
+        }
+
+        section>div>span.block {
+            display: block;
+            background-color: #b7ef77;
+            color: #754f15;
+            padding: 10px;
+            border: 2px dotted #990023;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div>
+            <span class="inline">行内元素水平方向实际占用空间增大，但垂直方向只是可视空间增大。</span>
+            <span class="inline">行内元素水平方向实际占用空间增大，但垂直方向只是可视空间增大。</span>
+        </div>
+        <div>
+            <span class="block">块元素不管水平还是垂直方向可视空间和实际占用空间都增大。</span>
+            <span class="block">块元素不管水平还是垂直方向可视空间和实际占用空间都增大。</span>
+        </div>
+    </section>
+</body>
+
+</html>

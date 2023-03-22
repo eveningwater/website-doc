@@ -1,0 +1,74 @@
+/*锚点导航样式*/
+.toggleDynamicAnchor {
+    width: 32px;
+    height: 32px;
+    position: fixed;
+    top: 22px;
+    right: 22px;
+    cursor: pointer;
+    opacity: .3;
+    transition: all .16s linear;
+    background: url('https://www.eveningwater.com/docs/docs/css/images/anchor.svg')no-repeat center center/contain;
+    color: transparent;
+    z-index: 999;
+}
+.toggleDynamicAnchor:hover,
+.toggleDynamicAnchor:active{
+    opacity: .9;
+}
+.dynamicAnchor {
+    position: fixed;
+    top: 22px;
+    right: 22px;
+    display: none;
+    z-index: 999;
+}
+.dynamicAnchor > ul{
+    min-width: 220px;
+    max-height: 512px;
+    background-color: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    overflow-y: auto;
+    box-shadow: 0 2px 4px rgba(97,108,118,.3);
+    counter-reset: anchor-number;
+}
+.dynamicAnchor > ul li {
+    width: 100%;
+    height: 32px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 0;
+    box-sizing: border-box;
+    padding: 4px;
+    counter-increment: anchor-number;
+}
+.dynamicAnchor ul li:first-child,
+.dynamicAnchor ul li:last-child{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.dynamicAnchor ul li a{
+    width: 100%;
+    height: 100%;
+    padding: 0 12px;
+    text-decoration: none;
+    line-height: 30px;
+    font-size: 16px;
+    color: #666;
+    white-space: nowrap;
+    display: block;
+    box-sizing: border-box;
+}
+.dynamicAnchor ul li a::before{
+    content: counter(anchor-number,simp-chinese-informal) "、";
+}
+.dynamicAnchor ul li:hover,.dynamicAnchor ul li.anchor-active{
+    border-left-color: rgb(29, 170, 170);
+    border-right-color: rgb(29, 170, 170);
+}
+.dynamicAnchor ul li a:hover,.dynamicAnchor ul li a.anchor-active{
+    color:rgb(29, 170, 170)!important;
+}

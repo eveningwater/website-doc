@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码示例</title>
+</head>
+
+<body>
+    <form
+        oninput="result.value=((parseInt(rangeVal_1.value)+parseInt(rangeVal_2.value)-parseInt(numVal_1.value))*parseInt(numVal_2.value)/parseInt(numVal_3.value))+txtVal.value">
+        <label>0</label>
+        <input id="rangeVal_1" type="range" min="0" max="100" value="5" />
+        <label>100</label>
+        <span>+</span>
+        <label>0</label>
+        <input id="rangeVal_2" type="range" min="0" max="100" value="10" />
+        <label>100</label>
+        <span>-</span>
+        <input type="number" id="numVal_1" value="25" />
+        <span>X</span>
+        <input type="number" id="numVal_2" value="15" />
+        <span>÷</span>
+        <input type="number" id="numVal_3" value="35" />
+        <span>+</span>
+        <input type="text" id="txtVal" value="只猫" />
+        <span>=</span>
+        <output name="result" for="rangeVal_1 rangeVal_2 numVal_1 numVal_2 numVal_3 txtVal">?</output>
+    </form>
+</body>
+
+</html>

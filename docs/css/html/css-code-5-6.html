@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>代码示例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        section {
+            overflow: hidden;
+        }
+
+        section>div {
+            width: 300px;
+            padding: 10px;
+            text-align: center;
+            float: left;
+        }
+
+        section>div:first-child {
+            margin-right: 20px;
+        }
+
+        .ie-box {
+            height: 50px;
+            background-color: #f1c64d;
+            color: #556677;
+            box-sizing: border-box;
+            line-height: 30px;
+        }
+
+        .w3c-box {
+            height: 30px;
+            line-height: 30px;
+            background-color: #f3c8f3;
+            color: #8899ff;
+            box-sizing: content-box;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="ie-box">在雨中漫步，蓝色街灯渐露。</div>
+        <div class="w3c-box">无法可修饰的一对手。</div>
+    </section>
+</body>
+
+</html>

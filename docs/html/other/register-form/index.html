@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>用户注册验证</title>
+	<link rel="stylesheet" href="./css/register.css">
+</head>
+
+<body>
+	<main>
+		<form name="register">
+			<div>
+				<label>邮箱：</label>
+				<input id="email" type="email" placeholder="请输入邮箱号">
+				<p>邮箱格式输入错误!</p>
+			</div>
+			<div>
+				<label>昵称：</label>
+				<input id="niceName" type="text" placeholder="请输入用户名">
+				<p>用户名输入不符合规范!</p>
+			</div>
+			<div>
+				<label>密码：</label>
+				<input id="pwd" type="password" maxlength="16" placeholder="请输入6~16位数密码">
+				<p>密码输入不符合规范!</p>
+			</div>
+			<div>
+				<label>确认密码：</label>
+				<input id="rePwd" type="password" maxlength="16" placeholder="再次输入密码">
+				<p>密码输入不一致！</p>
+			</div>
+			<div>
+				<label>性别：</label>
+				<input id="male" name="gender" type="radio" placeholder="请输入用户名"><label for="male">男</label>
+				<input id="female" name="gender" type="radio" placeholder="请输入用户名"><label for="female">女</label>
+				<input id="secret" name="gender" type="radio" placeholder="请输入用户名" checked><label
+					for="secret">保密</label>
+			</div>
+			<div>
+				<label>手机号：</label>
+				<input id="tel" type="tel" placeholder="请输入手机号">
+				<p>手机号输入不符合规范！</p>
+			</div>
+			<div>
+				<label>生日：</label>
+				<input id="birthday" type="text" placeholder="如：1994-02-15">
+				<p>生日输入错误！</p>
+			</div>
+			<div>
+				<label>职业：</label>
+				<select id="profession">
+					<option value="0">请选择...</option>
+					<option value="1">政府职工</option>
+					<option value="2">工程建筑</option>
+					<option value="3">金融</option>
+					<option value="4">房地产</option>
+					<option value="5">互联网</option>
+					<option value="6">交通运输</option>
+					<option value="7">服务行业</option>
+					<option value="8">在校学生</option>
+					<option value="9">其它</option>
+				</select>
+				<p>请选择职业！</p>
+			</div>
+			<div>
+				<label>个人主页：</label>
+				<input id="homepage" type="url" placeholder="如：http://www.xiaoluohao.com">
+				<p>请输入正确的主页网址！</p>
+			</div>
+			<div>
+				<label>自我介绍：</label>
+				<textarea id="describe" placeholder="面如冠玉、目如朗星、鼻若悬胆、唇若涂脂、长身玉立、风流倜傥..."></textarea>
+				<p>请自我介绍一下吧！</p>
+			</div>
+			<div>
+				<button id="submit" type="button">注册</button>
+				<button id="reset" type="reset">重置</button>
+			</div>
+		</form>
+	</main>
+	<div class="popBox">
+		<span>×</span>
+		<div class="popBox-content"></div>
+	</div>
+</body>
+<!--js部分-->
+<script src="js/register.js"></script>
+
+</html>

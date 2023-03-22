@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码示例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        form[name="customerInfo"] {
+            min-width: 600px;
+            max-width: 100%;
+            border-collapse: collapse;
+        }
+
+        [ class ^="customer"] table,
+        [ class ^="customer"] td,
+        [ class ^="customer"] th {
+            border: 1px solid #acacac;
+        }
+
+        form[ name $="Info"] td,
+        form[ name $="Info"] th {
+            padding: 4px 10px;
+            text-align: left;
+        }
+
+        form[ class *="-info"] thead {
+            background-color: #333333;
+            color: #eeeeee;
+        }
+
+        [ class~="tr-even"] {
+            background-color: #dddddd;
+        }
+
+        form table tr td {
+            max-width: 100px;
+        }
+
+        form table tr td:hover {
+            background-color: #3181cc;
+        }
+
+        form table tr td:hover+td {
+            color: #85abf5;
+        }
+
+        form table tr:hover {
+            background-color: #555555;
+            color: #dddddd;
+        }
+
+        form table input {
+            width: 100%;
+            height: 100%;
+            padding: 6px;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            font-size: inherit;
+            color: inherit;
+        }
+
+        input[name |="userPwd"] {
+            color: #4ea16e;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- 客户信息 -->
+    <form name="customerInfo" class="customer-info">
+        <table>
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>职业</th>
+                    <th>验证密码</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cus-001</td>
+                    <td>
+                        <input name="userName" type="text" value="张三丰" />
+                    </td>
+                    <td>男</td>
+                    <td>
+                        <input name="userAge" type="number" value="56" />
+                    </td>
+                    <td>
+                        <input name="userProfession" type="text" value="互联网" />
+                    </td>
+                    <td>
+                        <input name="userPwd" type="password" value="123456" />
+                    </td>
+                </tr>
+                <tr class="tr-even">
+                    <td>Cus-002</td>
+                    <td>
+                        <input name="userName" type="text" value="王重阳" />
+                    </td>
+                    <td>男</td>
+                    <td>
+                        <input name="userAge" type="number" value="46" />
+                    </td>
+                    <td>
+                        <input name="userProfession" type="text" value="建筑" />
+                    </td>
+                    <td>
+                        <input name="userPwd" type="password" value="zxcfbn" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Cus-003</td>
+                    <td>
+                        <input name="userName" type="text" value="令狐冲" />
+                    </td>
+                    <td>男</td>
+                    <td>
+                        <input name="userAge" type="number" value="32" />
+                    </td>
+                    <td>
+                        <input name="userProfession" type="text" value="运输" />
+                    </td>
+                    <td>
+                        <input name="userPwd" type="password" value="1a2b3c" />
+                    </td>
+                </tr>
+                <tr class="tr-even">
+                    <td>Cus-004</td>
+                    <td>
+                        <input name="userName" type="text" value="韦小宝" />
+                    </td>
+                    <td>男</td>
+                    <td>
+                        <input name="userAge" type="number" value="22" />
+                    </td>
+                    <td>
+                        <input name="userProfession" type="text" value="特殊服务" />
+                    </td>
+                    <td>
+                        <input name="userPwd" type="password" value="abcdef" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+
+</html>

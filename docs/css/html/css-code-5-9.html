@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>代码示例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        section {
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        section>div {
+            width: 160px;
+            height: 96px;
+            background-color: #c4ebff;
+            border: 32px solid #2396ef;
+            /* border-color失效 */
+            border-image-source: url('../images/border-image_apple.png');
+            /* 边框图像区域超出边框的量为0，也就是不向外偏移 */
+            border-image-outset: 0;
+            /* 相对于原图的100%宽度 */
+            border-image-width: 1;
+            /* 图像边框排列方式 */
+            border-image-repeat: repeat;
+            float: left;
+            margin-right: 20px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        section>div:hover:before {
+            content: attr(data-value);
+            width: 160px;
+            height: 96px;
+            position: absolute;
+            left: -32px;
+            top: -32px;
+            color: #445ff4;
+            text-align: center;
+            line-height: 96px;
+            background: rgba(139, 125, 131, 0.6);
+        }
+
+        .bd-1 {
+            border-image-slice: initial;
+        }
+
+        .bd-2 {
+            border-image-slice: inherit;
+        }
+
+        .bd-3 {
+            border-image-slice: 0;
+        }
+
+        .bd-4 {
+            border-image-slice: 16;
+        }
+
+        .bd-5 {
+            border-image-slice: 32;
+        }
+
+        .bd-6 {
+            border-image-slice: 48;
+        }
+
+        .bd-7 {
+            border-image-slice: 16 fill;
+        }
+
+        .bd-8 {
+            border-image-slice: 32 fill;
+        }
+
+        .bd-9 {
+            border-image-slice: fill 32;
+        }
+
+        .bd-10 {
+            border-image-slice: 32 fill 16;
+        }
+
+        .bd-11 {
+            border-image-slice: fill 32 16;
+        }
+
+        .bd-12 {
+            border-image-slice: 32 16 fill;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="bd-1" data-value="initial;"></div>
+        <div class="bd-2" data-value="inherit;"></div>
+        <div class="bd-3" data-value="0;"></div>
+        <div class="bd-4" data-value="16;"></div>
+        <div class="bd-5" data-value="32;"></div>
+        <div class="bd-6" data-value="48;"></div>
+        <div class="bd-7" data-value="16 fill;"></div>
+        <div class="bd-8" data-value="32 fill;"></div>
+        <div class="bd-9" data-value="fill 32;"></div>
+        <div class="bd-10" data-value="32 fill 16;"></div>
+        <div class="bd-11" data-value="fill 32 16;"></div>
+        <div class="bd-11" data-value="32 16 fill;"></div>
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+/* 按钮 */
+.ew-btn {
+    line-height: 1;
+    white-space: nowrap;
+    background: #fff;
+    border: 1px solid #dcdfe6;
+    color: #606266;
+    -webkit-appearance: none;
+    user-select: none;
+    transition: .1s;
+    font-weight: 500;
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+    outline: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.ew-btn-mini {
+    padding: 7px 15px;
+    font-size: 12px;
+    border-radius: 3px;
+}
+
+.ew-btn-primary {
+    color: #fff;
+    background-color: #409eff;
+    border-color: #409eff;
+}
+
+.ew-btn:hover,
+.ew-btn:active {
+    color: #57a3f3;
+    background-color: #fff;
+    border-color: #57a3f3;
+}
+
+.ew-btn-primary:hover,
+.ew-btn-primary:active {
+    background: #66b1ff;
+    border-color: #66b1ff;
+    color: #fff;
+}
+
+.ew-input {
+    border-radius: 5px;
+    padding: 6px 8px;
+    background-color: #ffffff;
+    border: 1px solid #919191;
+    outline: none;
+    transition: all .3s cubic-bezier(.075, .82, .165, 1);
+    display: inline-block;
+}
+
+.ew-input:focus {
+    border-color: #2399ff;
+}
+
+.ml-5 {
+    margin-left: 5px;
+}
+.mr-5 {
+    margin-right: 5px;
+}

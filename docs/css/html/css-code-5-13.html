@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>代码示例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        section {
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        section>div {
+            width: 160px;
+            height: 96px;
+            background-color: #c4ebff;
+            border: 32px solid #2396ef;
+            float: left;
+            margin-right: 20px;
+            margin-top: 20px;
+        }
+
+        .bd-1 {
+            border-image: url('../images//border-image_apple.png');
+        }
+
+        .bd-2 {
+            border-image: url('../images//border-image_apple.png') 32 space;
+        }
+
+        .bd-3 {
+            border-image: url('../images//border-image_apple.png') 32 fill / 32px round;
+        }
+
+        .bd-4 {
+            border-image: url('../images//border-image_apple.png') 32 16 / 32px 16px / 10px repeat;
+        }
+
+        .bd-5 {
+            border-image: url('../images//border-image_apple.png') 32 16 / 32px 32px / 20px repeat round;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="bd-1"></div>
+        <div class="bd-2"></div>
+        <div class="bd-3"></div>
+        <div class="bd-4"></div>
+        <div class="bd-5"></div>
+    </section>
+</body>
+
+</html>

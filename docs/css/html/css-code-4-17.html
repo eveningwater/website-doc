@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码示例</title>
+    <style>
+        @charset "utf-8";
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        p {
+            border-bottom: 2px dashed #2499ff;
+            font: 20px "微软雅黑";
+        }
+
+        p em {
+            color: #998766;
+        }
+
+        .ws-normal span {
+            white-space: normal;
+        }
+
+        .ws-pre span {
+            white-space: pre;
+        }
+
+        .ws-nowrap span {
+            white-space: nowrap;
+        }
+
+        .ws-prewrap span {
+            white-space: pre-wrap;
+        }
+
+        .ws-preline span {
+            white-space: pre-line;
+        }
+    </style>
+</head>
+
+<body>
+    <article>
+        <p class="ws-normal">
+            <span>如果不是她钱多 你会不会来娶我 你为何非走不可 不能留下来陪我 你对我是真心的 抵不过名利的诱惑 你难道不担心我 没有你不能活 男朋友结婚了 新娘却不是我就算眼泪再多 也没人心疼我 我想要的不多
+                你的爱就够了 千万别怕养不起我 男朋友结婚了 新娘却不是我 所有你想要的 唯独缺我一个 有手有脚拼搏 总想不劳而获 没有我要钱干什么</span>
+            <br><em>white-space:normal;由浏览器处理空格符和换行符</em>
+        </p>
+        <p class="ws-pre">
+            <span>如果不是她钱多 你会不会来娶我 你为何非走不可 不能留下来陪我 你对我是真心的 抵不过名利的诱惑 你难道不担心我 没有你不能活 男朋友结婚了 新娘却不是我就算眼泪再多 也没人心疼我 我想要的不多
+                你的爱就够了 千万别怕养不起我 男朋友结婚了 新娘却不是我 所有你想要的 唯独缺我一个 有手有脚拼搏 总想不劳而获 没有我要钱干什么</span>
+            <br><em>white-space:pre;段落里所有的空格符和换行符都会被保留。作用同于
+                <pre>标签</em>
+        </p>
+        <p class="ws-nowrap">
+            <span>如果不是她钱多 你会不会来娶我 你为何非走不可 不能留下来陪我 你对我是真心的 抵不过名利的诱惑 你难道不担心我 没有你不能活 男朋友结婚了 新娘却不是我就算眼泪再多 也没人心疼我 我想要的不多
+                                        你的爱就够了 千万别怕养不起我 男朋友结婚了 新娘却不是我 所有你想要的 唯独缺我一个 有手有脚拼搏 总想不劳而获 没有我要钱干什么</span>
+            <br><em>white-space:nowrap;段落内的文本不会换行，已经换行的文本也会强制设为不换行的形式</em>
+        </p>
+        <p class="ws-prewrap">
+            <span>如果不是她钱多 你会不会来娶我 你为何非走不可 不能留下来陪我 你对我是真心的 抵不过名利的诱惑 你难道不担心我 没有你不能活 男朋友结婚了 新娘却不是我就算眼泪再多 也没人心疼我 我想要的不多
+                                        你的爱就够了 千万别怕养不起我 男朋友结婚了 新娘却不是我 所有你想要的 唯独缺我一个 有手有脚拼搏 总想不劳而获 没有我要钱干什么</span>
+            <br><em>white-space:pre-wrap;段落里所有的空格符序列和换行符序列都会被保留（除了在某些编码格式下和“pre”有所差距，大多数时候可以说它和“pre”这个值是等价的）</em>
+        </p>
+        <p class="ws-preline">
+            <span>如果不是她钱多 你会不会来娶我 你为何非走不可 不能留下来陪我 你对我是真心的 抵不过名利的诱惑 你难道不担心我 没有你不能活 男朋友结婚了 新娘却不是我就算眼泪再多 也没人心疼我 我想要的不多
+                                        你的爱就够了 千万别怕养不起我 男朋友结婚了 新娘却不是我 所有你想要的 唯独缺我一个 有手有脚拼搏 总想不劳而获 没有我要钱干什么</span>
+           <br><em>white-space:pre-line;多空格会合并成一个，但换行符会保留</em>
+        </p>
+    </article>
+</body>
+</html>

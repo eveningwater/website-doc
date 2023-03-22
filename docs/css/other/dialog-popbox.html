@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="/static/image/icon.jpg" type="image/x-icon">
+    <title>对话框</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        section {
+            width: 80%;
+            margin: 180px auto;
+            display: block;
+        }
+        section::after {
+            content: "";
+            display: block;
+            visibility: hidden;
+            height: 0;
+            clear: both;
+        }
+        section > div {
+            width: 100px;
+            height: 50px;
+            border: 1px solid;
+            float: left;
+            text-align: center;
+            line-height: 50px;
+            cursor: help;
+            position: relative;
+        }
+        section > div:hover:before {
+            content: attr(data-tip);
+            background-color: #504e4e;
+            color: #ffffff;
+            padding: 8px;
+            font-size: 18px;
+            text-align: center;
+            position: absolute;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border-radius: 5px;
+            top: -3.8em;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        section > div:hover:after {
+            content:"";
+            border-width: 15px;
+            border-style: solid;
+            border-color: #504e4e transparent transparent  transparent;
+            position: absolute;
+            top: -.2em;
+            left: 50%;
+            transform: translateX(-50%);    
+        }
+        section > div:not(:last-of-type) {
+            border-right: none;
+        }
+        @media screen and (max-width: 765px) {
+            section {
+                width: 100%;
+            }
+            section > div {
+                width: 20%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div data-tip="一只很萌的电耗子">皮卡丘</div>
+        <div data-tip="一种很奇怪的蛙">妙蛙种子</div>
+        <div data-tip="会喷火会飞的龙">喷火龙</div>
+        <div data-tip="背上插两根钢管的龟">水箭龟</div>
+        <div data-tip="一只如同开挂了的鸟">大王燕</div>
+    </section>
+</body>
+
+</html>

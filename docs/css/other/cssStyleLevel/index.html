@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css样式优先级</title>
+    <link rel="stylesheet" href="https://www.eveningwater.com/static/plugin/code.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../BEM/css/anchor.css">
+</head>
+
+<body>
+    <div class="container">
+        <p>
+            当创建的样式表越来越复杂时，一个标签的样式将会受到越来越多的影响，这种影响可能来自周围的标签，也可能来自其自身。下面我们从这两方面去看看CSS样式的优先级。
+        </p>
+        <h2 class="ew-h2" id="sec-1">CSS 的继承性</h2>
+        <p>CSS 的继承特性指的是应用在一个标签上的那些 CSS 属性被传到其子标签上。看下面的 HTML 结构：</p>
+        <p>
+            <code class="ew-code ew-code-html">
+    &lt;div&gt;
+        &lt;p&gt;&lt;/p&gt;
+    &lt;/div&gt;
+            </code>
+        </p>
+        <p>
+            如果 &lt;div&gt; 有个属性 color: red，则这个属性将被 &lt;p&gt; 继承，即 &lt;p&gt; 也拥有属性 color: red。
+            由上可见，当网页比较复杂， HTML 结构嵌套较深时，一个标签的样式将深受其祖先标签样式的影响。影响的规则是：
+        </p>
+        <h2 class="ew-h2" id="sec-1-1">CSS 优先规则1</h2>
+        <p>最近的祖先样式比其他祖先样式优先级高。如以下一个示例:</p>
+        <p>
+            <code class="ew-code ew-code-html">
+    &lt;!-- 类名为 son 的 div 的 color 为 blue --&gt;
+    &lt;div style="color: red"&gt;
+        &lt;div style="color: blue"&gt;
+            &lt;div class="son"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+            </code>
+        </p>
+        <p>
+            如果我们把一个标签从祖先那里继承来的而自身没有的属性叫做<em class="defineWord">"祖先样式"</em>，那么<em class="defineWord">"直接样式"</em>就是一个标签直接拥有的属性。又有如下规则：
+        </p>
+        <h2 class="ew-h2" id="sec-1-2">CSS 优先规则2</h2>
+        <p>
+            "直接样式"比"祖先样式"优先级高。如以下一个示例:
+        </p>
+        <p>
+            <code class="ew-code ew-code-html">
+    &lt;!-- 类名为 son 的 div 的 color 为 blue --&gt;
+    &lt;div style="color: red"&gt;
+        &lt;div class="son" style="color: blue"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+            </code>
+        </p>
+        <h2 class="ew-h2" id="sec-2">选择器的优先级</h2>
+        <p>
+            上面讨论了一个标签从祖先继承来的属性，现在讨论标签自有的属性。在讨论 CSS 优先级之前，先说说 CSS 7 种基础的选择器：
+        </p>
+        <ul class="ew-list-ul">
+            <li class="ew-list-li">ID 选择器， 如 #id{}</li>
+            <li class="ew-list-li">类选择器， 如 .class{}</li>
+            <li class="ew-list-li">属性选择器， 如 a[href="segmentfault.com"]{}</li>
+            <li class="ew-list-li">伪类选择器， 如 :hover{}</li>
+            <li class="ew-list-li">伪元素选择器， 如 ::before{}</li>
+            <li class="ew-list-li">标签选择器， 如 span{}</li>
+            <li class="ew-list-li">通配选择器， 如 *{}</li>
+        </ul>
+        <h2 class="ew-h2" id="sec-2-1">CSS 优先规则3</h2>
+        <p class="ew-tips">
+            <b>优先级关系：</b>内联样式 > ID 选择器 > 类选择器 = 属性选择器 = 伪类选择器 > 标签选择器 = 伪元素选择器
+        </p>
+        <p>
+            如以下一个示例:
+        </p>
+        <p>
+            html代码如下:
+            <code class="ew-code ew-code-html">
+    &lt;div id="content-id" class="content-class"  style="color: black"&gt;&lt;/div&gt;
+            </code>
+            css代码如下:
+            <code class="ew-code ew-code-css">
+    #content-id {
+        color: red;
+    }
+    .content-class {
+        color: blue;
+    }
+    div {
+        color: grey;
+    }
+            </code>
+        </p>
+        <p>
+            最终的 color 为 black，因为内联样式比其他选择器的优先级高。
+        </p>
+        <p>
+            所有 CSS 的选择符由上述 7 种基础的选择器或者组合而成，组合的方式有 3 种：
+        </p>
+        <ul class="ew-list-ul">
+            <li class="ew-list-li">后代选择符： .father .child{}</li>
+            <li class="ew-list-li">子选择符： .father > .child{}</li>
+            <li class="ew-list-li">相邻选择符: .bro1 + .bro2{}</li>
+        </ul>
+        <p>当一个标签同时被多个选择符选中，我们便需要确定这些选择符的优先级。我们有如下规则：</p>
+        <h2 class="ew-h2" id="sec-2-2">CSS 优先规则4</h2>
+        <p>
+            计算选择符中 ID 选择器的个数（a），计算选择符中类选择器、属性选择器以及伪类选择器的个数之和（b），计算选择符中标签选择器和伪元素选择器的个数之和（c）。按 a、b、c 的顺序依次比较大小，大的则优先级高，相等则比较下一个。若最后两个的选择符中 a、b、c 都相等，则按照"就近原则"来判断。如以下一个示例:
+        </p>
+        <p>
+            html代码如下:
+            <code class="ew-code ew-code-html">
+    &lt;div id="con-id"&gt;
+        &lt;span class="con-span"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+            </code>
+            css代码如下:
+            <code class="ew-code ew-code-css">
+    #con-id span {
+        color: red;
+    }
+    div .con-span {
+        color: blue;
+    }
+            </code>
+        </p>
+        <p>
+            由规则 4 可见，&lt;span&gt; 的 color 为 red。
+        </p>
+        <p>
+            如果外部样式表和内部样式表中的样式发生冲突会出现什么情况呢？这与样式表在 HTML 文件中所处的位置有关。样式被应用的位置越在下面则优先级越高，其实这仍然可以用规则 4 来解释。例如以下一个示例:
+        </p>
+        <p>
+            html代码如下:
+            <code class="ew-code ew-code-html">
+    &lt;link rel="stylesheet" type="text/css" href="style-link.css"&gt;
+    &lt;style type="text/css"&gt;
+        @import url('style-import.css'); 
+        div {
+            background: blue;
+        }
+    &lt;/style&gt;
+    
+    &lt;div&gt;&lt;/div&gt;
+            </code>
+            style-link文件的css代码如下:
+            <code class="ew-code ew-code-css">
+    div {
+        background: lime;
+    }
+            </code>
+            style-import文件的css代码如下:
+            <code class="ew-code ew-code-css">
+    div {
+        background: grey;
+    }
+            </code>
+        </p>
+        <p>从顺序上看，内部样式在最下面，被最晚引用，所以 &lt;div&gt; 的背景色为 blue。</p>
+        <p>
+            上面代码中，@import 语句必须出现在内部样式之前，否则文件引入无效。当然不推荐使用 @import 的方式引用外部样式文件,原因见<a href="https://segmentfault.com/a/1190000003866058" target="_blank" rel="noopener noreferrer" class="origin-article-a">CSS引入方式</a>。
+        </p>
+        <p>
+            CSS 还提供了一种可以完全忽略以上规则的方法，当你一定、必须确保某一个特定的属性要显示时，可以使用这个技术。
+        </p>
+        <h2 class="ew-h2" id="sec-2-3">CSS 优先规则5</h2>
+        <p>
+            属性后插有 !important 的属性拥有最高优先级。若同时插有 !important，则再利用规则 3、4 判断优先级。如以下一个示例:
+        </p>
+        <p>
+            html代码如下:
+            <code class="ew-code ew-code-html">
+    &lt;div class="father"&gt;
+        &lt;p class="son"&gt;&lt;/p&gt;
+    &lt;/div&gt;
+            </code>
+            css代码如下:
+            <code class="ew-code ew-code-css">
+    p {
+        background: red !important;
+    }
+    .father .son {
+        background: blue;
+    }
+            </code>
+        </p>
+        <p>虽然 .father .son 拥有更高的权值，但选择器 p 中的 background 属性被插入了 !important， 所以 &lt;p&gt; 的 background 为 red。</p>
+        <h2 class="ew-h2" id="sec-3">错误的说法</h2>
+        <p>
+            在学习过程中，你可能发现给选择器加权值的说法，即 ID 选择器权值为 100，类选择器权值为 10，标签选择器权值为 1，当一个选择器由多个 ID 选择器、类选择器或标签选择器组成时，则将所有权值相加，然后再比较权值。这种说法其实是有问题的。比如一个由 11 个类选择器组成的选择器和一个由 1 个 ID 选择器组成的选择器指向同一个标签，按理说 110 > 100，应该应用前者的样式，然而事实是应用后者的样式。错误的原因是：选择器的权值不能进位。还是拿刚刚的例子说明。11 个类选择器组成的选择器的总权值为 110，但因为 11 个均为类选择器，所以其实总权值最多不能超过 100， 你可以理解为 99.99，所以最终应用后者样式。
+        </p>
+        <h2 class="ew-h2" id="sec-4">多重样式</h2>
+        <p>
+            如果某些属性在不同的样式表中被同样的选择器定义，那么属性值将从更具体的样式表中被继承过来。 
+        </p>
+        <p>例如，外部样式表拥有针对 h3 选择器的三个属性：</p>
+        <p>
+            <code class="ew-code ew-code-css">
+    h3 {
+        color:red;
+        text-align:left;
+        font-size:8pt;
+    }
+            </code>
+        </p>
+        <p>而内部样式表拥有针对 h3 选择器的两个属性：</p>
+        <p>
+            <code class="ew-code ew-code-css">
+    h3 {
+        text-align:right;
+        font-size:20pt;
+    }
+            </code>
+        </p>
+        <p>假如拥有内部样式表的这个页面同时与外部样式表链接，那么 h3 得到的样式是：</p>
+        <p>
+            <code class="ew-code ew-code-css">
+    h3 {
+        color:red;
+        text-align:right;
+        font-size:20pt;
+    }
+            </code>
+        </p>
+        <p>即颜色属性将被继承于外部样式表，而文字排列（text-alignment）和字体尺寸（font-size）会被内部样式表中的规则取代。</p>
+        <h2 class="ew-h2" id="sec-5">多重样式优先级</h2>
+        <p>
+            样式表允许以多种方式规定样式信息。样式可以规定在单个的 HTML 元素中，在 HTML 页的头元素中，或在一个外部的 CSS 文件中。甚至可以在同一个 HTML 文档内部引用多个外部样式表。一般情况下，优先级如下：
+        </p>
+        <p class="ew-tips">
+            (内联样式）Inline style > （内部样式）Internal style sheet >（外部样式）External style sheet > 浏览器默认样式
+        </p>
+        <p>如以下一个示例:</p>
+        <p>
+            <code class="ew-code ew-code-html">
+    &lt;head&gt;
+        &lt;!-- 外部样式 style.css --&gt;
+        &lt;link rel="stylesheet" type="text/css" href="style.css" /&gt;
+        &lt;!-- 设置：h3{color:blue;} --&gt;
+        &lt;style type="text/css"&gt;
+          /* 内部样式 */
+          h3{color:green;}
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h3&gt;测试！&lt;/h3&gt;
+    &lt;/body&gt;
+            </code>
+        </p>
+        <p>由前面的优先级规则可知，h3最终的color为green。</p>
+        <p class="ew-tips">注意：如果外部样式放在内部样式的后面，则外部样式将覆盖内部样式。</p>
+        <h2 class="ew-h2" id="sec-6">多重样式优先级深入概念</h2>
+        <p>
+            优先级是浏览器是通过判断哪些属性值与元素最相关以决定并应用到该元素上的。优先级仅由选择器组成的匹配规则决定的。
+        </p>
+        <p>优先级就是分配给指定的CSS声明的一个权重，它由匹配的选择器中的每一种选择器类型的数值决定。</p>
+        <h2 class="ew-h2" id="sec-7">优先级顺序</h2>
+        <p>下列是一份优先级逐级增加的选择器列表：</p>
+        <ul class="ew-list-ul">
+            <li class="ew-list-li">通用选择器（*）</li>
+            <li class="ew-list-li">元素(类型)选择器</li>
+            <li class="ew-list-li">类选择器</li>
+            <li class="ew-list-li">属性选择器</li>
+            <li class="ew-list-li">伪类</li>
+            <li class="ew-list-li">ID 选择器</li>
+            <li class="ew-list-li">内联样式</li>
+        </ul>
+        <h2 class="ew-h2" id="sec-8">!important 规则例外</h2>
+        <p>
+            当 !important 规则被应用在一个样式声明中时,该样式声明会覆盖CSS中任何其他的声明, 无论它处在声明列表中的哪里. 尽管如此, !important规则还是与优先级毫无关系.使用 !important 不是一个好习惯，因为它改变了你样式表本来的级联规则，从而使其难以调试。一些经验法则：
+        </p>
+        <p class="ew-tips">
+            <b>Always </b>要优化考虑使用样式规则的优先级来解决问题而不是 !important
+        </p>
+        <p class="ew-tips">
+            <b>Only </b>只在需要覆盖全站或外部 css（例如引用的 ExtJs 或者 YUI ）的特定页面中使用 !important
+        </p>
+        <p class="ew-tips">
+            <b>Never </b>永远不要在全站范围的 css 上使用 !important
+        </p>
+        <p class="ew-tips">
+            <b>Never</b>永远不要在你的插件中使用 !important
+        </p>
+        <p>权重计算如下图所示</p>
+        <img src="./images/jc6_002_thumb.png" alt="css权重计算" class="ew-image">
+        <p>上图解释如下:</p>
+        <ul class="ew-list-ul">
+            <li class="ew-list-li">内联样式表的权值最高 1000；</li>
+            <li class="ew-list-li">ID 选择器的权值为 100</li>
+            <li class="ew-list-li">Class 类选择器的权值为 10</li>
+            <li class="ew-list-li">HTML 标签选择器的权值为 1</li>
+        </ul>
+        <p>利用选择器的权值进行计算比较，em 显示蓝色，<a href="https://c.runoob.com/codedemo/3048" target="_blank" rel="noopener noreferrer" class="origin-article-a">示例</a>。</p>
+        <h2 class="ew-h2" id="sec-6-2">CSS 优先级法则</h2>
+        <ul class="ew-list-ul">
+            <li class="ew-list-li">选择器都有一个权值，权值越大越优先；</li>
+            <li class="ew-list-li">当权值相等时，后出现的样式表设置要优于先出现的样式表设置；</li>
+            <li class="ew-list-li">创作者的规则高于浏览者：即网页编写者设置的CSS 样式的优先权高于浏览器所设置的样式；</li>
+            <li class="ew-list-li">继承的CSS 样式不如后来指定的CSS 样式；</li>
+            <li class="ew-list-li">在同一组属性设置中标有“!important”规则的优先级最大；<a href="https://c.runoob.com/codedemo/3049" target="_blank" rel="noopener noreferrer" class="origin-article-a">示例</a>。结果：在Firefox 下显示为蓝色；在IE 6 下显示为红色；</li>
+        </ul>
+        <p>这里引入一张流行的CSS权重关系图：</p>
+        <img src="./images/css_weight.png" alt="css权重问题" class="ew-image">
+        <p class="float-right">
+            本文参考——<a href="https://www.runoob.com/css/css-howto.html" target="_blank" rel="noopener noreferrer" class="origin-article-a">CSS优先级</a>
+        </p>
+    </div>
+    <div class="toTop mainToTop"></div>
+</body>
+<script src="https://www.eveningwater.com/static/plugin/jquery.min.js"></script>
+<script src="https://www.eveningwater.com/static/plugin/code.min.js"></script>
+<script src="https://www.eveningwater.com/static/plugin/viewer.min.js"></script>
+<script src="../BEM/js/anchor.js"></script>
+<script src="./script.js"></script>
+
+</html>

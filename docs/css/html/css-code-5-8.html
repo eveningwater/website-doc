@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>代码示例</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      section,
+      div {
+        box-sizing: border-box;
+      }
+
+      section {
+        padding: 10px;
+        background-color: #889922;
+      }
+
+      section::after {
+        content: '';
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+      }
+
+      section > div {
+        background-color: #887766;
+        color: #ffffff;
+        text-align: center;
+        border-width: 10px;
+        float: left;
+        height: 70px;
+        line-height: 50px;
+        padding: 0 8px;
+      }
+
+      section > div:not(:first-child) {
+        margin-left: 1em;
+      }
+
+      .none {
+        border-style: none;
+        line-height: 70px;
+      }
+
+      .solid {
+        border-style: solid;
+      }
+
+      .dashed {
+        border-style: dashed;
+      }
+
+      .dotted {
+        border-style: dotted;
+      }
+
+      .double {
+        border-style: double;
+      }
+
+      .groove {
+        border-style: groove;
+      }
+
+      .ridge {
+        border-style: ridge;
+      }
+
+      .inset {
+        border-style: inset;
+      }
+
+      .outset {
+        border-style: outset;
+      }
+
+      @media screen and (max-width: 1090px) {
+        section > div {
+          width: 100%;
+        }
+
+        section > div:not(:first-child) {
+          margin-left: 0;
+          margin-top: 1em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <div class="none">无边框</div>
+      <div class="solid">实线边框</div>
+      <div class="dotted">点线边框</div>
+      <div class="dashed">虚线边框</div>
+      <div class="double">双线边框</div>
+      <div class="groove">3D凹槽边框</div>
+      <div class="ridge">3D凸槽边框</div>
+      <div class="inset">内浮雕边框</div>
+      <div class="outset">外浮雕边框</div>
+    </section>
+  </body>
+</html>

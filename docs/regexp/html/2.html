@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正则测试器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .rt-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 300px;
+            padding: 0 200px;
+        }
+
+        .rt-container>* {
+            min-height: 30px;
+        }
+
+        .rt-error {
+            color: #f00;
+        }
+
+        .rt-result {
+            line-height: 30px;
+        }
+
+        .rt-info {
+            background: #00c5ff;
+            padding: 2px;
+            margin: 2px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="rt-container">
+        <div id="rt-error" class="rt-error"></div>
+        <input type="text" id="rt-regex" class="tr-regex" placeholder="请输入正则表达式" />
+        <input type="text" id="rt-text" class="tr-text" placeholder="请输入测试文本" />
+        <button type="button" class="rt-run-btn" id="rt-run-btn">测试一下</button>
+        <div class="rt-result" id="rt-result"></div>
+    </section>
+    <script>
+        (function () {
+            const doc = document,
+                $ = s => doc.getElementById(s),
+                regexInput = $('rt-regex'),
+                textInput = $('rt-text'),
+                runBtn = $("rt-run-btn"),
+                errorBox = $('rt-error'),
+                resultBox = $('rt-result');
+            runBtn.onclick = () => {
+                errorBox.innerHTML = "";
+                resultBox.innerHTML = "";
+
+                let text = textInput.value,
+                    regex = regexInput.value;
+
+                if (regex === '') {
+                    errorBox.innerHTML = "请输入正则表达式";
+                } else if (text === '') {
+                    resultBox.innerHTML = "请输入测试文本";
+                } else {
+                    let currentRegex = createRegex(regex);
+                    if (!currentRegex) {
+                        return;
+                    }
+                    let result,
+                        results = [];
+                    if (currentRegex.global) {
+                        while (result = currentRegex.exec(text)) {
+                            results.push(result);
+                        }
+                    } else {
+                        results.push(currentRegex.exec(text));
+                    }
+                    if (results[0] === null) {
+                        resultBox.innerHTML = "匹配到0个结果";
+                        return;
+                    }
+                    let matchText = "";
+                    for (let i = results.length - 1; i >= 0; i--) {
+                        const currentRes = results[i],
+                            match = currentRes[0],
+                            prefix = text.substr(0, currentRes.index),
+                            suffix = text.substr(currentRes.index + match.length);
+                        matchText = `${prefix}<span class="rt-info">${match}</span>${suffix}`;
+                    }
+                    resultBox.innerHTML = `匹配到${results.length}个结果:<br />${matchText}`;
+                }
+            }
+
+            function createRegex(regex) {
+                let newRegex = regex;
+                try {
+                    if (regex[0] === '/') {
+                        newRegex = newRegex.split('/');
+                        newRegex.shift();
+                        const flags = newRegex.pop();
+                        newRegex = newRegex.join("/");
+                        newRegex = new RegExp(newRegex, flags);
+                    } else {
+                        newRegex = new RegExp(regex, 'g');
+                    }
+                    return newRegex;
+                } catch (error) {
+                    errorBox.innerHTML = "无效的正则表达式";
+                    return false;
+                }
+            }
+        })();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+/* header style */
+.header > .logo {
+  padding: 0 15px;
+  flex: 0 1 200px;
+}
+.header > .logo > img {
+  width: 45px;
+  height: 45px;
+}
+.header > .header-content {
+  flex: 1;
+}
+.header > .header-content > .date {
+  margin-left: 25px;
+}
+.header > .header-content > .left-menu {
+   display: none;
+}
+/* nav style */
+.main .left-list {
+  flex: 0 1 200px;
+  order: 1;
+}
+.toggleAnchor,.toggleAnchorPanel {
+  right: 25px;
+}
+.loading-content p {
+  font-size: 18px;
+}
+.loading .dot {
+  width: 2em;
+  height: 2em;
+  margin: 0.8em;
+}
