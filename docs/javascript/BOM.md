@@ -307,3 +307,207 @@ if (blocked) {
 > 注意 检查弹窗是否被屏蔽，不影响浏览器显示关于弹窗被屏蔽的消息。
 
 ### 定时器
+
+JavaScript 在浏览器中是单线程执行的，但允许使用定时器指定在某个时间之后或每隔一段时间就执行相应的代码。setTimeout()用于指定在一定时间后执行某些代码，而 setInterval()用于指定每隔一段时间执行某些代码。
+
+setTimeout()方法通常接收两个参数：要执行的代码和在执行回调函数前等待的时间（毫秒）。第一个参数可以是包含 JavaScript 代码的字符串（类似于传给 eval()的字符串）或者一个函数，比如：
+
+```js
+// 在 1 秒后显示警告框
+setTimeout(() => alert('Hello world!'), 1000);
+```
+
+第二个参数是要等待的毫秒数，而不是要执行代码的确切时间。JavaScript 是单线程的，所以每次只能执行一段代码。为了调度不同代码的执行，JavaScript 维护了一个任务队列。其中的任务会按照添加到队列的先后顺序执行。setTimeout()的第二个参数只是告诉 JavaScript 引擎在指定的毫秒数过后把任务添加到这个队列。如果队列是空的，则会立即执行该代码。如果队列不是空的，则代码必须等待前面的任务执行完才能执行。
+
+调用 setTimeout()时，会返回一个表示该超时排期的数值 ID。这个超时 ID 是被排期执行代码的唯一标识符，可用于取消该任务。要取消等待中的排期任务，可以调用 clearTimeout()方法并传入超时 ID，如下面的例子所示：
+
+```js
+// 设置超时任务
+let timeoutId = setTimeout(() => alert('Hello world!'), 1000);
+// 取消超时任务
+clearTimeout(timeoutId);
+```
+
+只要是在指定时间到达之前调用 clearTimeout()，就可以取消超时任务。在任务执行后再调用 clearTimeout()没有效果。
+
+> 注意 所有超时执行的代码（函数）都会在全局作用域中的一个匿名函数中运行，因此函数中的 this 值在非严格模式下始终指向 window，而在严格模式下是 undefined。如果给 setTimeout()提供了一个箭头函数，那么 this 会保留为定义它时所在的词汇作用域。
+
+setInterval()与 setTimeout()的使用方法类似，只不过指定的任务会每隔指定时间就执行一次，直到取消循环定时或者页面卸载。setInterval()同样可以接收两个参数：要执行的代码（字符串或函数），以及把下一次执行定时代码的任务添加到队列要等待的时间（毫秒）。下面是一个例子：
+
+```js
+setInterval(() => alert('Hello world!'), 10000);
+```
+
+> 注意 这里的关键点是，第二个参数，也就是间隔时间，指的是向队列添加新任务之前等待的时间。比如，调用 setInterval()的时间为 01:00:00，间隔时间为 3000 毫秒。这意味着 01:00:03 时，浏览器会把任务添加到执行队列。浏览器不关心这个任务什么时候执行或者执行要花多长时间。因此，到了 01:00:06，它会再向队列中添加一个任务。由此可看出，执行时间短、非阻塞的回调函数比较适合 setInterval()。
+
+setInterval()方法也会返回一个循环定时 ID，可以用于在未来某个时间点上取消循环定时。要取消循环定时，可以调用 clearInterval()并传入定时 ID。相对于 setTimeout()而言，取消定时的能力对 setInterval()更加重要。毕竟，如果一直不管它，那么定时任务会一直执行到页面卸载。下面是一个常见的例子：
+
+```js
+let num = 0,
+  intervalId = null;
+let max = 10;
+let incrementNumber = function () {
+  num++;
+  // 如果达到最大值，则取消所有未执行的任务
+  if (num == max) {
+    clearInterval(intervalId);
+    alert('Done');
+  }
+};
+intervalId = setInterval(incrementNumber, 500);
+```
+
+在这个例子中，变量 num 会每半秒递增一次，直至达到最大限制值。此时循环定时会被取消。这个模式也可以使用 setTimeout()来实现，比如：
+
+```js
+let num = 0;
+let max = 10;
+let incrementNumber = function () {
+  num++;
+  // 如果还没有达到最大值，再设置一个超时任务
+  if (num < max) {
+    setTimeout(incrementNumber, 500);
+  } else {
+    alert('Done');
+  }
+};
+setTimeout(incrementNumber, 500);
+```
+
+注意在使用 setTimeout()时，不一定要记录超时 ID，因为它会在条件满足时自动停止，否则会自动设置另一个超时任务。这个模式是设置循环任务的推荐做法。setInterval()在实践中很少会在生产环境下使用，因为一个任务结束和下一个任务开始之间的时间间隔是无法保证的，有些循环定时任务可能会因此而被跳过。而像前面这个例子中一样使用 setTimeout()则能确保不会出现这种情况。一般来说，最好不要使用 setInterval()。以下是一个 setTimeout 模拟实现 setInterval 的示例:
+
+```js
+const defineSetInterval = () => {
+  const timeWorker = {};
+  const key = Symbol();
+  const defineInterval = (fn, time) => {
+    let executor = (fn, time) => {
+      timeWorker[key] = setTimeout(() => {
+        fn();
+        executor(fn, time);
+      }, time);
+    };
+    executor(fn, time);
+    return key;
+  };
+  const defineClearInterval = k => {
+    if (k in timeWorker) {
+      clearTimeout(timeWorker[k]);
+      delete timeWorker[k];
+    }
+  };
+  return {
+    setInterval: defineInterval,
+    clearInterval: defineClearInterval
+  };
+};
+```
+
+ts 版本如下:
+
+```ts
+type AnyFunction = (...args: any[]) => any;
+const defineSetInterval = (): {
+  setInterval: (fn: AnyFunction, time: number) => symbol;
+  clearInterval: (k: symbol) => void;
+} => {
+  const timeWorker = {};
+  const key = Symbol();
+  const defineInterval = (fn: AnyFunction, time: number) => {
+    let executor = (fn: AnyFunction, time: number) => {
+      timeWorker[key] = setTimeout(() => {
+        fn();
+        executor(fn, time);
+      }, time);
+    };
+    executor(fn, time);
+    return key;
+  };
+  const defineClearInterval = (k: symbol) => {
+    if (k in timeWorker) {
+      clearTimeout(timeWorker[k] as number);
+      delete timeWorker[k];
+    }
+  };
+  return {
+    setInterval: defineInterval,
+    clearInterval: defineClearInterval
+  };
+};
+```
+
+使用方式如下:
+
+```js
+const { setInterval, clearInterval } = defineSetInterval();
+const timeId = setInterval(() => alert('hello,world!'), 1000);
+// 取消定时器
+// clearInterval(timeId);
+```
+
+### 系统对话框
+
+使用 alert()、confirm()和 prompt()方法，可以让浏览器调用系统对话框向用户显示消息。这些对话框与浏览器中显示的网页无关，而且也不包含 HTML。它们的外观由操作系统或者浏览器决定，无法使用 CSS 设置。此外，这些对话框都是同步的模态对话框，即在它们显示的时候，代码会停止执行，在它们消失以后，代码才会恢复执行。
+
+alert()方法在本书示例中经常用到。它接收一个要显示给用户的字符串。与 console.log 可以接收任意数量的参数且能一次性打印这些参数不同，alert()只接收一个参数。调用 alert()时，传入的字符串会显示在一个系统对话框中。对话框只有一个“OK”（确定）按钮。如果传给 alert()的参数不是一个原始字符串，则会调用这个值的 toString()方法将其转换为字符串。
+
+警告框（alert）通常用于向用户显示一些他们无法控制的消息，比如报错。用户唯一的选择就是在看到警告框之后把它关闭。图 12-1 展示了一个警告框。
+
+<div class="image-container">
+    <img src="./docs/javascript/images/18.png" alt="图片12-1" title="图12-1" >
+    <span class="image-title">图 12-1</span>
+</div>
+
+第二种对话框叫确认框，通过调用 confirm()来显示。确认框跟警告框类似，都会向用户显示消息。但不同之处在于，确认框有两个按钮：“Cancel”（取消）和“OK”（确定）。用户通过单击不同的按钮表明希望接下来执行什么操作。比如，confirm("Are you sure?")会显示图 12-2 所示的确认框。
+
+<div class="image-container">
+    <img src="./docs/javascript/images/19.png" alt="图片12-2" title="图12-2" >
+    <span class="image-title">图 12-2</span>
+</div>
+
+要知道用户单击了 OK 按钮还是 Cancel 按钮，可以判断 confirm()方法的返回值：true 表示单击了 OK 按钮，false 表示单击了 Cancel 按钮或者通过单击某一角上的 X 图标关闭了确认框。确认框的典型用法如下所示：
+
+```js
+if (confirm('Are you sure?')) {
+  alert("I'm so glad you're sure!");
+} else {
+  alert("I'm sorry to hear you're not sure.");
+}
+```
+
+在这个例子中，第一行代码向用户显示了确认框，也就是 if 语句的条件。如果用户单击了 OK 按钮，则会弹出警告框显示"I'm so glad you're sure!"。如果单击了 Cancel，则会显示"I'm sorry to hear you're not sure."。确认框通常用于让用户确认执行某个操作，比如删除邮件等。因为这种对话框会完全打断正在浏览网页的用户，所以应该在必要时再使用。
+
+最后一种对话框是提示框，通过调用 prompt()方法来显示。提示框的用途是提示用户输入消息。除了 OK 和 Cancel 按钮，提示框还会显示一个文本框，让用户输入内容。prompt()方法接收两个参数：要显示给用户的文本，以及文本框的默认值（可以是空字符串）。调用 prompt("What is your name?", "Jake")会显示图 12-3 所示的提示框。
+
+<div class="image-container">
+    <img src="./docs/javascript/images/20.png" alt="图片12-3" title="图12-3" >
+    <span class="image-title">图 12-3</span>
+</div>
+
+如果用户单击了 OK 按钮，则 prompt()会返回文本框中的值。如果用户单击了 Cancel 按钮，或者对话框被关闭，则 prompt()会返回 null。下面是一个例子：
+
+```js
+let result = prompt('What is your name? ', '');
+if (result !== null) {
+  alert('Welcome, ' + result);
+}
+```
+
+这些系统对话框可以向用户显示消息、确认操作和获取输入。由于不需要 HTML 和 CSS，所以系统对话框是 Web 应用程序最简单快捷的沟通手段。
+
+很多浏览器针对这些系统对话框添加了特殊功能。如果网页中的脚本生成了两个或更多系统对话框，则除第一个之外所有后续的对话框上都会显示一个复选框，如果用户选中则会禁用后续的弹框，直到页面刷新。
+
+如果用户选中了复选框并关闭了对话框，在页面刷新之前，所有系统对话框（警告框、确认框、提示框）都会被屏蔽。开发者无法获悉这些对话框是否显示了。对话框计数器会在浏览器空闲时重置，因此如果两次独立的用户操作分别产生了两个警告框，则两个警告框上都不会显示屏蔽复选框。如果一次独立的用户操作连续产生了两个警告框，则第二个警告框会显示复选框。
+
+JavaScript 还可以显示另外两种对话框：find()和 print()。这两种对话框都是异步显示的，即控制权会立即返回给脚本。用户在浏览器菜单上选择“查找”（find）和“打印”（print）时显示的就是这两种对话框。通过在 window 对象上调用 find()和 print()可以显示它们，比如：
+
+```js
+// 显示打印对话框
+window.print();
+// 显示查找对话框
+window.find();
+```
+
+这两个方法不会返回任何有关用户在对话框中执行了什么操作的信息，因此很难加以利用。此外，因为这两种对话框是异步的，所以浏览器的对话框计数器不会涉及它们，而且用户选择禁用对话框对它们也没有影响。
+
+## location 对象
