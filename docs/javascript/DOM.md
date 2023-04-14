@@ -132,3 +132,22 @@ if (someNode.nextSibling === null) {
 最后还有一个所有节点都共享的关系。ownerDocument 属性是一个指向代表整个文档的文档节点的指针。所有节点都被创建它们（或自己所在）的文档所拥有，因为一个节点不可能同时存在于两个或者多个文档中。这个属性为迅速访问文档节点提供了便利，因为无需在文档结构中逐层上溯了。
 
 > 注意 虽然所有节点类型都继承了 Node，但并非所有节点都有子节点。本章后面会讨论不同节点类型的差异。
+
+### 操纵节点
+
+因为所有关系指针都是只读的，所以 DOM 又提供了一些操纵节点的方法。最常用的方法是appendChild()，用于在 childNodes 列表末尾添加节点。添加新节点会更新相关的关系指针，包括父节点和之前的最后一个子节点。appendChild()方法返回新添加的节点，如下所示：
+
+```js
+let returnedNode = someNode.appendChild(newNode); 
+alert(returnedNode == newNode); // true 
+alert(someNode.lastChild == newNode); // true
+```
+
+如果把文档中已经存在的节点传给 appendChild()，则这个节点会从之前的位置被转移到新位置。即使 DOM 树通过各种关系指针维系，一个节点也不会在文档中同时出现在两个或更多个地方。因此，如果调用 appendChild()传入父元素的第一个子节点，则这个节点会成为父元素的最后一个子节点，如下所示：
+
+```js
+// 假设 someNode 有多个子节点
+let returnedNode = someNode.appendChild(someNode.firstChild); 
+alert(returnedNode == someNode.firstChild); // false 
+alert(returnedNode == someNode.lastChild); // true
+```

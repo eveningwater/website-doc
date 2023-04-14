@@ -11,7 +11,7 @@
             </div>
             <ew-tree v-show="!item[dataKey.isFolder || 'show']"
                 v-if="Array.isArray(item[dataKey.children]) && item[dataKey.children].length"
-                :model="item[dataKey.children]"></ew-tree>
+                :model="item[dataKey.children]" :dataKey="dataKey"></ew-tree>
         </li>
     </ul>
 </template>

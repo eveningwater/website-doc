@@ -17,7 +17,13 @@ export const testData = {
             {
               childList: [
                 {
-                  childList: [],
+                  childList: [
+                    {
+                      id: '10',
+                      name: 'B域1111',
+                      parentId: '9'
+                    }
+                  ],
                   id: '9',
                   name: 'B域',
                   parentId: '8'
