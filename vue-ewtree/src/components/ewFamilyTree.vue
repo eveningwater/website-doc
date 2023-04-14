@@ -12,7 +12,7 @@
             <button class="ew-horizontal-tree-children-item-btn" v-if="!item.show">{{ item.name }}</button>
           </div>
           <div class="ew-tree-container" v-if="!item.show">
-            <ew-tree :model="item.childList" :dataKey="{ key:'name',children:'childList',isFolder:'show' }"></ew-tree>
+            <ew-tree :model="item.childList" :dataKey="{ key:'id',name:'name',children:'childList',isFolder:'show' }"></ew-tree>
           </div>
         </div>
         <div class="ew-horizontal-tree-children-right" :style="{ width: `calc(${100 / list.childList.length / 2 + '%'})`}"></div>
