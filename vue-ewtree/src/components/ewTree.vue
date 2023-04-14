@@ -1,13 +1,17 @@
 <template>
     <ul class="ew-tree">
         <li class="ew-tree_branch" v-for="item in model" :key="item.id">
-            <div class="ew-tree_click">
-                <button type="button" class="ew-tree_children_btn" v-if="item.children" @click="toggle(item)">{{ !item.show
-                    ?
-                    '-' : '+' }}</button>
-                <span class="ew-folder">{{ item.name }}</span>
+            <div class="ew-tree_click" @click="() => toggle(item)">
+                <button type="button" class="ew-tree_children_btn"
+                    v-if="Array.isArray(item[dataKey.children]) && item[dataKey.children].length">{{ !item[dataKey.isFolder
+                        || 'show']
+                        ?
+                        '-' : '+' }}</button>
+                <span class="ew-folder">{{ item[dataKey.key] }}</span>
             </div>
-            <ew-tree v-show="!item.show" v-if="item.children" :model="item.children"></ew-tree>
+            <ew-tree v-show="!item[dataKey.isFolder || 'show']"
+                v-if="Array.isArray(item[dataKey.children]) && item[dataKey.children].length"
+                :model="item[dataKey.children]"></ew-tree>
         </li>
     </ul>
 </template>
@@ -15,17 +19,20 @@
 export default {
     name: "ewTree",
     props: {
-        model: {}
-    },
-    data() {
-        return {
-
+        model: {
+            type: Array,
+            default: () => ([])
+        },
+        dataKey: {
+            type: Object,
+            default: () => ({ key: 'name', children: 'children', isFolder: 'show' })
         }
     },
     methods: {
-        toggle: function (item) {
-            var idx = this.model.indexOf(item)
-            this.$set(this.model[idx], 'show', !item.show)
+        toggle(item) {
+            const isLeaf = this.dataKey.isFolder || 'show';
+            const idx = this.model.indexOf(item);
+            this.$set(this.model[idx], isLeaf, !item[isLeaf]);
         }
     }
 }
@@ -70,6 +77,10 @@ li {
     cursor: pointer;
 }
 
+.ew-folder {
+    margin-left: 5px;
+}
+
 ul.ew-tree:before {
     content: "";
     border-left: 1px dashed #999999;
@@ -104,9 +115,13 @@ ul.ew-tree:before {
     right: calc(100% - 9px);
     top: 22px;
 }
-
+.ew-tree_click {
+     width: 100px;
+     text-overflow: ellipsis;
+     overflow: hidden;
+     white-space: nowrap;
+}
 .ew-tree_container>.ew-tree::before,
 .ew-tree_container>.ew-tree>.ew-tree_branch::after {
     display: none;
-}
-</style>
+}</style>

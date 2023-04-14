@@ -6,23 +6,22 @@
 
 <script>
 import ewFamilyTree from './components/ewFamilyTree.vue';
-import { testData } from './data'
+import { testData } from './data';
 export default {
   name: 'app',
   data() {
-    return {
-
-    }
+    return {};
   },
   computed: {
     getTreeData() {
-      return testData.object;
+      const data = testData.object[0];
+      return data;
     }
   },
   components: {
     ewFamilyTree
   }
-}
+};
 </script>
 
 <style></style>

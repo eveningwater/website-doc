@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import App from './App.vue';
 import './style.css';
-import 'vue-okr-tree/lib/vue-okr-tree.css';
 Vue.config.productionTip = false;
 
 new Vue({
