@@ -1,4 +1,5 @@
-const eventType = navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)
+const isMobile = !!navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i);
+const eventType = isMobile
   ? ['touchstart', 'touchmove', 'touchend']
   : ['mousedown', 'mousemove', 'mouseup'];
 function create(tagName) {

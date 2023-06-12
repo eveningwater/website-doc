@@ -1005,3 +1005,228 @@ EventUtil.addHandler(audio, 'canplaythrough', function (event) {
 在 iOS 中调用 play()方法会弹出一个对话框，请求用户授权播放声音。为了连续播放，必须在 onfinish 事件处理程序中立即调用 play()。
 
 ## 原生拖放
+
+IE4 最早在网页中为 JavaScript 引入了对拖放功能的支持。当时，网页中只有两样东西可以触发拖放：图片和文本。拖动图片就是简单地在图片上按住鼠标不放然后移动鼠标。而对于文本，必须先选中，然后再以同样的方式拖动。在 IE4 中，唯一有效的放置目标是文本框。IE5 扩展了拖放能力，添加了新的事件，让网页中几乎一切都可以成为放置目标。IE5.5 又进一步，允许几乎一切都可以拖动（IE6 也支持这个功能）。HTML5 在 IE 的拖放实现基础上标准化了拖放功能。所有主流浏览器都根据 HTML5 规范实现了原生的拖放。
+
+关于拖放最有意思的可能就是可以跨窗格、跨浏览器容器，有时候甚至可以跨应用程序拖动元素。浏览器对拖放的支持可以让我们实现这些功能。
+
+### 拖放事件
+
+拖放事件几乎可以让开发者控制拖放操作的方方面面。关键的部分是确定每个事件是在哪里触发的。有的事件在被拖放元素上触发，有的事件则在放置目标上触发。在某个元素被拖动时，会（按顺序）触发以下事件：
+
+1. dragstart
+2. drag
+3. dragend
+
+在按住鼠标键不放并开始移动鼠标的那一刻，被拖动元素上会触发 dragstart 事件。此时光标会变成非放置符号（圆环中间一条斜杠），表示元素不能放到自身上。拖动开始时，可以在 ondragstart 事件处理程序中通过 JavaScript 执行某些操作。
+
+dragstart 事件触发后，只要目标还被拖动就会持续触发 drag 事件。这个事件类似于 mousemove，即随着鼠标移动而不断触发。当拖动停止时（把元素放到有效或无效的放置目标上），会触发 dragend 事件。
+
+所有这 3 个事件的目标都是被拖动的元素。默认情况下，浏览器在拖动开始后不会改变被拖动元素的外观，因此是否改变外观由你来决定。不过，大多数浏览器此时会创建元素的一个半透明副本，始终跟随在光标下方。在把元素拖动到一个有效的放置目标上时，会依次触发以下事件：
+
+1. dragenter
+2. dragover
+3. dragleave 或 drop
+
+只要一把元素拖动到放置目标上，dragenter 事件（类似于 mouseover 事件）就会触发。dragenter 事件触发之后，会立即触发 dragover 事件，并且元素在放置目标范围内被拖动期间此事件会持续触发。当元素被拖动到放置目标之外，dragover 事件停止触发，dragleave 事件触发（类似于 mouseout 事件）。如果被拖动元素被放到了目标上，则会触发 drop 事件而不是 dragleave 事件。这些事件的目标是放置目标元素。
+
+### 自定义放置目标
+
+在把某个元素拖动到无效放置目标上时，会看到一个特殊光标（圆环中间一条斜杠）表示不能放下。即使所有元素都支持放置目标事件，这些元素默认也是不允许放置的。如果把元素拖动到不允许放置的目标上，无论用户动作是什么都不会触发 drop 事件。不过，通过覆盖 dragenter 和 dragover 事件的默认行为，可以把任何元素转换为有效的放置目标。例如，如果有一个 ID 为"droptarget"的`<div>`元素，那么可以使用以下代码把它转换成一个放置目标：
+
+```js
+let droptarget = document.getElementById('droptarget');
+droptarget.addEventListener('dragover', event => {
+  event.preventDefault();
+});
+droptarget.addEventListener('dragenter', event => {
+  event.preventDefault();
+});
+```
+
+执行上面的代码之后，把元素拖动到这个`<div>`上应该可以看到光标变成了允许放置的样子。另外，drop 事件也会触发。
+
+在 Firefox 中，放置事件的默认行为是导航到放在放置目标上的 URL。这意味着把图片拖动到放置目标上会导致页面导航到图片文件，把文本拖动到放置目标上会导致无效 URL 错误。为阻止这个行为，在 Firefox 中必须取消 drop 事件的默认行为：
+
+```js
+droptarget.addEventListener('drop', event => {
+  event.preventDefault();
+});
+```
+
+### dataTransfer 对象
+
+除非数据受影响，否则简单的拖放并没有实际意义。为实现拖动操作中的数据传输，IE5 在 event 对象上暴露了 dataTransfer 对象，用于从被拖动元素向放置目标传递字符串数据。因为这个对象是 event 的属性，所以在拖放事件的事件处理程序外部无法访问 dataTransfer。在事件处理程序内部，可以使用这个对象的属性和方法实现拖放功能。dataTransfer 对象现在已经纳入了 HTML5 工作草案。
+
+dataTransfer 对象有两个主要方法：getData()和 setData()。顾名思义，getData()用于获取 setData()存储的值。setData()的第一个参数以及 getData()的唯一参数是一个字符串，表示要设置的数据类型："text"或"URL"，如下所示：
+
+```js
+// 传递文本
+event.dataTransfer.setData('text', 'some text');
+let text = event.dataTransfer.getData('text');
+// 传递 URL
+event.dataTransfer.setData('URL', 'http://www.wrox.com/');
+let url = event.dataTransfer.getData('URL');
+```
+
+虽然这两种数据类型是 IE 最初引入的，但 HTML5 已经将其扩展为允许任何 MIME 类型。为向后兼容，HTML5 还会继续支持"text"和"URL"，但它们会分别被映射到"text/plain"和"text/uri-list"。
+
+dataTransfer 对象实际上可以包含每种 MIME 类型的一个值，也就是说可以同时保存文本和 URL，两者不会相互覆盖。存储在 dataTransfer 对象中的数据只能在放置事件中读取。如果没有在 ondrop 事件处理程序中取得这些数据，dataTransfer 对象就会被销毁，数据也会丢失。
+
+在从文本框拖动文本时，浏览器会调用 setData()并将拖动的文本以"text"格式存储起来。类似地，在拖动链接或图片时，浏览器会调用 setData()并把 URL 存储起来。当数据被放置在目标上时，可以使用 getData()获取这些数据。当然，可以在 dragstart 事件中手动调用 setData()存储自定义数据，以便将来使用。
+
+作为文本的数据和作为 URL 的数据有一个区别。当把数据作为文本存储时，数据不会被特殊对待。而当把数据作为 URL 存储时，数据会被作为网页中的一个链接，意味着如果把它放到另一个浏览器窗口，浏览器会导航到该 URL。
+
+直到版本 5，Firefox 都不能正确地把"url"映射为"text/uri-list"或把"text"映射为"text/plain"。不过，它可以把"Text"（第一个字母大写）正确映射为"text/plain"。在通过 dataTransfer 获取数据时，为保持最大兼容性，需要对 URL 检测两个值并对文本使用"Text"：
+
+```js
+let dataTransfer = event.dataTransfer;
+// 读取 URL
+let url = dataTransfer.getData('url') || dataTransfer.getData('text/uri-list');
+// 读取文本
+let text = dataTransfer.getData('Text');
+```
+
+这里要注意，首先应该尝试短数据名。这是因为直到版本 10，IE 都不支持扩展的类型名，而且会在遇到无法识别的类型名时抛出错误。
+
+### dropEffect 与 effectAllowed
+
+dataTransfer 对象不仅可以用于实现简单的数据传输，还可以用于确定能够对被拖动元素和放置目标执行什么操作。为此，可以使用两个属性：dropEffect 与 effectAllowed。dropEffect 属性可以告诉浏览器允许哪种放置行为。这个属性有以下 4 种可能的值。
+
+- "none"：被拖动元素不能放到这里。这是除文本框之外所有元素的默认值。
+- "move"：被拖动元素应该移动到放置目标。
+- "copy"：被拖动元素应该复制到放置目标
+- "link"：表示放置目标会导航到被拖动元素（仅在它是 URL 的情况下）。
+
+在把元素拖动到放置目标上时，上述每种值都会导致显示一种不同的光标。不过，是否导致光标示意的动作还要取决于开发者。换句话说，如果没有代码参与，则没有什么会自动移动、复制或链接。唯一不用考虑的就是光标自己会变。为了使用 dropEffect 属性，必须在放置目标的 ondragenter 事件处理程序中设置它。
+
+除非同时设置 effectAllowed，否则 dropEffect 属性也没有用。effectAllowed 属性表示对被拖动元素是否允许 dropEffect。这个属性有如下几个可能的值。
+
+- "uninitialized"：没有给被拖动元素设置动作。
+- "none"：被拖动元素上没有允许的操作。
+- "copy"：只允许"copy"这种 dropEffect。
+- "link"：只允许"link"这种 dropEffect。
+- "move"：只允许"move"这种 dropEffect。
+- "copyLink"：允许"copy"和"link"两种 dropEffect。
+- "copyMove"：允许"copy"和"move"两种 dropEffect。
+- "linkMove"：允许"link"和"move"两种 dropEffect。
+- "all"：允许所有 dropEffect。
+
+必须在 ondragstart 事件处理程序中设置这个属性。
+
+假设我们想允许用户把文本从一个文本框拖动到一个`<div>`元素。那么必须同时把 dropEffect 和 effectAllowed 属性设置为"move"。因为`<div>`元素上放置事件的默认行为是什么也不做，所以文本不会自动地移动自己。如果覆盖这个默认行为，文本就会自动从文本框中被移除。然后是否把文本插入`<div>`元素就取决于你了。如果是把 dropEffect 和 effectAllowed 属性设置为"copy"，那么文本框中的文本不会自动被移除。
+
+### 可拖动能力
+
+默认情况下，图片、链接和文本是可拖动的，这意味着无须额外代码用户便可以拖动它们。文本只有在被选中后才可以拖动，而图片和链接在任意时候都是可以拖动的。
+
+我们也可以让其他元素变得可以拖动。HTML5 在所有 HTML 元素上规定了一个 draggable 属性，表示元素是否可以拖动。图片和链接的 draggable 属性自动被设置为 true，而其他所有元素此属性的默认值为 false。如果想让其他元素可拖动，或者不允许图片和链接被拖动，都可以设置这个属性。例如：
+
+```html
+<!-- 禁止拖动图片 -->
+<img src="smile.gif" draggable="false" alt="Smiley face" />
+<!-- 让元素可以拖动 -->
+<div draggable="true">...</div>
+```
+
+### 其他成员
+
+HTML5 规范还为 dataTransfer 对象定义了下列方法。
+
+- addElement(element)：为拖动操作添加元素。这纯粹是为了传输数据，不会影响拖动操作的外观。目前还没有浏览器实现这个方法。
+- clearData(format)：清除以特定格式存储的数据。
+- setDragImage(element, x, y)：允许指定拖动发生时显示在光标下面的图片。这个方法接收 3 个参数：要显示的 HTML 元素及标识光标位置的图片上的 x 和 y 坐标。这里的 HTML 元素可以是一张图片，此时显示图片；也可以是其他任何元素，此时显示渲染后的元素。
+- types：当前存储的数据类型列表。这个集合类似数组，以字符串形式保存数据类型，比如"text"。
+
+## Notifications API
+
+Notifications API 用于向用户显示通知。无论从哪个角度看，这里的通知都很类似 alert()对话框：都使用 JavaScript API 触发页面外部的浏览器行为，而且都允许页面处理用户与对话框或通知弹层的交互。不过，通知提供更灵活的自定义能力。
+
+Notifications API 在 Service Worker 中非常有用。渐进 Web 应用（PWA，Progressive Web Application）通过触发通知可以在页面不活跃时向用户显示消息，看起来就像原生应用。
+
+### 通知权限
+
+Notifications API 有被滥用的可能，因此默认会开启两项安全措施：
+
+- 通知只能在运行在安全上下文的代码中被触发；
+- 通知必须按照每个源的原则明确得到用户允许。
+
+用户授权显示通知是通过浏览器内部的一个对话框完成的。除非用户没有明确给出允许或拒绝的答复，否则这个权限请求对每个域只会出现一次。浏览器会记住用户的选择，如果被拒绝则无法重来。
+
+页面可以使用全局对象 Notification 向用户请求通知权限。这个对象有一个 requestPemission()方法，该方法返回一个期约，用户在授权对话框上执行操作后这个期约会解决。
+
+```js
+Notification.requestPermission().then(permission => {
+  console.log('User responded to permission request:', permission);
+});
+```
+
+"granted"值意味着用户明确授权了显示通知的权限。除此之外的其他值意味着显示通知会静默失败。如果用户拒绝授权，这个值就是"denied"。一旦拒绝，就无法通过编程方式挽回，因为不可能再触发授权提示。
+
+### 显示和隐藏通知
+
+Notification 构造函数用于创建和显示通知。最简单的通知形式是只显示一个标题，这个标题内容可以作为第一个参数传给 Notification 构造函数。以下面这种方式调用 Notification，应该会立即显示通知：
+
+```js
+new Notification('Title text!');
+```
+
+可以通过 options 参数对通知进行自定义，包括设置通知的主体、图片和振动等：
+
+```js
+new Notification('Title text!', {
+  body: 'Body text!',
+  image: 'path/to/image.png',
+  vibrate: true
+});
+```
+
+调用这个构造函数返回的 Notification 对象的 close()方法可以关闭显示的通知。下面的例子展示了显示通知后 1000 毫秒再关闭它：
+
+```js
+const n = new Notification('I will close in 1000ms');
+setTimeout(() => n.close(), 1000);
+```
+
+### 通知生命周期回调
+
+通知并非只用于显示文本字符串，也可用于实现交互。Notifications API 提供了 4 个用于添加回调的生命周期方法：
+
+- onshow 在通知显示时触发；
+- onclick 在通知被点击时触发；
+- onclose 在通知消失或通过 close()关闭时触发；
+- onerror 在发生错误阻止通知显示时触发。
+
+下面的代码将每个生命周期事件都通过日志打印了出来：
+
+```js
+const n = new Notification('foo');
+n.onshow = () => console.log('Notification was shown!');
+n.onclick = () => console.log('Notification was clicked!');
+n.onclose = () => console.log('Notification was closed!');
+n.onerror = () => console.log('Notification experienced an error!');
+```
+
+## Page Visibility API
+
+Web 开发中一个常见的问题是开发者不知道用户什么时候真正在使用页面。如果页面被最小化或隐藏在其他标签页后面，那么轮询服务器或更新动画等功能可能就没有必要了。Page Visibility API 旨在为开发者提供页面对用户是否可见的信息。
+
+这个 API 本身非常简单，由 3 部分构成。
+
+- document.visibilityState 值，表示下面 4 种状态之一。
+  - 页面在后台标签页或浏览器中最小化了。
+  - 页面在前台标签页中。
+  - 实际页面隐藏了，但对页面的预览是可见的（例如在 Windows 7 上，用户鼠标移到任务栏图标上会显示网页预览）。
+  - 页面在屏外预渲染。
+- visibilitychange 事件，该事件会在文档从隐藏变可见（或反之）时触发。
+- document.hidden 布尔值，表示页面是否隐藏。这可能意味着页面在后台标签页或浏览器中被最小化了。这个值是为了向后兼容才继续被浏览器支持的，应该优先使用 document.visibilityState 检测页面可见性。
+
+要想在页面从可见变为隐藏或从隐藏变为可见时得到通知，需要监听 visibilitychange 事件。
+
+document.visibilityState 的值是以下三个字符串之一：
+
+ "hidden"
+ "visible"
+ "prerender"
+
+## Streams API
