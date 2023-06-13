@@ -1265,3 +1265,628 @@ Stream API 定义了三种流。
 如果块入列速度快于出列速度，则内部队列会不断增大。流不能允许其内部队列无限增大，因此它会使用反压（backpressure）通知流入口停止发送数据，直到队列大小降到某个既定的阈值之下。这个阈值由排列策略决定，这个策略定义了内部队列可以占用的最大内存，即高水位线（high water mark）。
 
 ### 可读流
+
+可读流是对底层数据源的封装。底层数据源可以将数据填充到流中，允许消费者通过流的公共接口读取数据。
+
+#### ReadableStreamDefaultController
+
+来看下面的生成器，它每 1000 毫秒就会生成一个递增的整数：
+
+```js
+async function* ints() {
+  // 每 1000 毫秒生成一个递增的整数
+  for (let i = 0; i < 5; ++i) {
+    yield await new Promise(resolve => setTimeout(resolve, 1000, i));
+  }
+}
+```
+
+这个生成器的值可以通过可读流的控制器传入可读流。访问这个控制器最简单的方式就是创建 ReadableStream 的一个实例，并在这个构造函数的 underlyingSource 参数（第一个参数）中定义 start()方法，然后在这个方法中使用作为参数传入的 controller。默认情况下，这个控制器参数是 ReadableStreamDefaultController 的一个实例：
+
+```js
+const readableStream = new ReadableStream({
+  start(controller) {
+    console.log(controller); // ReadableStreamDefaultController {}
+  }
+});
+```
+
+调用控制器的 enqueue()方法可以把值传入控制器。所有值都传完之后，调用 close()关闭流：
+
+```js
+async function* ints() {
+  // 每 1000 毫秒生成一个递增的整数
+  for (let i = 0; i < 5; ++i) {
+    yield await new Promise(resolve => setTimeout(resolve, 1000, i));
+  }
+}
+const readableStream = new ReadableStream({
+  async start(controller) {
+    for await (let chunk of ints()) {
+      controller.enqueue(chunk);
+    }
+    controller.close();
+  }
+});
+```
+
+#### ReadableStreamDefaultReader
+
+前面的例子把 5 个值加入了流的队列，但没有把它们从队列中读出来。为此，需要一个 ReadableStreamDefaultReader 的实例，该实例可以通过流的 getReader()方法获取。调用这个方法会获得流的锁，保证只有这个读取器可以从流中读取值：
+
+```js
+async function* ints() {
+  // 每 1000 毫秒生成一个递增的整数
+  for (let i = 0; i < 5; ++i) {
+    yield await new Promise(resolve => setTimeout(resolve, 1000, i));
+  }
+}
+const readableStream = new ReadableStream({
+  async start(controller) {
+    for await (let chunk of ints()) {
+      controller.enqueue(chunk);
+    }
+    controller.close();
+  }
+});
+console.log(readableStream.locked); // false
+const readableStreamDefaultReader = readableStream.getReader();
+console.log(readableStream.locked); // true
+```
+
+消费者使用这个读取器实例的 read()方法可以读出值：
+
+```js
+async function* ints() {
+  // 每 1000 毫秒生成一个递增的整数
+  for (let i = 0; i < 5; ++i) {
+    yield await new Promise(resolve => setTimeout(resolve, 1000, i));
+  }
+}
+const readableStream = new ReadableStream({
+  async start(controller) {
+    for await (let chunk of ints()) {
+      controller.enqueue(chunk);
+    }
+    controller.close();
+  }
+});
+console.log(readableStream.locked); // false
+const readableStreamDefaultReader = readableStream.getReader();
+console.log(readableStream.locked); // true
+// 消费者
+(async function () {
+  while (true) {
+    const { done, value } = await readableStreamDefaultReader.read();
+    if (done) {
+      break;
+    } else {
+      console.log(value);
+    }
+  }
+})();
+// 0
+// 1
+// 2
+// 3
+// 4
+```
+
+### 可写流
+
+可写流是底层数据槽的封装。底层数据槽处理通过流的公共接口写入的数据。
+
+#### 创建 WritableStream
+
+来看下面的生成器，它每 1000 毫秒就会生成一个递增的整数：
+
+```js
+async function* ints() {
+  // 每 1000 毫秒生成一个递增的整数
+  for (let i = 0; i < 5; ++i) {
+    yield await new Promise(resolve => setTimeout(resolve, 1000, i));
+  }
+}
+```
+
+这些值通过可写流的公共接口可以写入流。在传给 WritableStream 构造函数的 underlyingSink 参数中，通过实现 write()方法可以获得写入的数据：
+
+```js
+const readableStream = new ReadableStream({
+  write(value) {
+    console.log(value);
+  }
+});
+```
+
+#### WritableStreamDefaultWriter
+
+要把获得的数据写入流，可以通过流的 getWriter()方法获取 WritableStreamDefaultWriter 的实例。这样会获得流的锁，确保只有一个写入器可以向流中写入数据：
+
+```js
+async function* ints() {
+  // 每 1000 毫秒生成一个递增的整数
+  for (let i = 0; i < 5; ++i) {
+    yield await new Promise(resolve => setTimeout(resolve, 1000, i));
+  }
+}
+const writableStream = new WritableStream({
+  write(value) {
+    console.log(value);
+  }
+});
+console.log(writableStream.locked); // false
+const writableStreamDefaultWriter = writableStream.getWriter();
+console.log(writableStream.locked); // true
+```
+
+在向流中写入数据前，生产者必须确保写入器可以接收值。writableStreamDefaultWriter.ready 返回一个期约，此期约会在能够向流中写入数据时解决。然后，就可以把值传给 writableStreamDefaultWriter.write()方法。写入数据之后，调用 writableStreamDefaultWriter.close()将流关闭：
+
+```js
+async function* ints() {
+  // 每 1000 毫秒生成一个递增的整数
+  for (let i = 0; i < 5; ++i) {
+    yield await new Promise(resolve => setTimeout(resolve, 1000, i));
+  }
+}
+const writableStream = new WritableStream({
+  write(value) {
+    console.log(value);
+  }
+});
+console.log(writableStream.locked); // false
+const writableStreamDefaultWriter = writableStream.getWriter();
+console.log(writableStream.locked); // true
+// 生产者
+(async function () {
+  for await (let chunk of ints()) {
+    await writableStreamDefaultWriter.ready;
+    writableStreamDefaultWriter.write(chunk);
+  }
+  writableStreamDefaultWriter.close();
+})();
+```
+
+### 转换流
+
+转换流用于组合可读流和可写流。数据块在两个流之间的转换是通过 transform()方法完成的。来看下面的生成器，它每 1000 毫秒就会生成一个递增的整数：
+
+```js
+async function* ints() {
+  // 每 1000 毫秒生成一个递增的整数
+  for (let i = 0; i < 5; ++i) {
+    yield await new Promise(resolve => setTimeout(resolve, 1000, i));
+  }
+}
+```
+
+下面的代码创建了一个 TransformStream 的实例，通过 transform()方法将每个值翻倍：
+
+```js
+async function* ints() {
+  // 每 1000 毫秒生成一个递增的整数
+  for (let i = 0; i < 5; ++i) {
+    yield await new Promise(resolve => setTimeout(resolve, 1000, i));
+  }
+}
+const { writable, readable } = new TransformStream({
+  transform(chunk, controller) {
+    controller.enqueue(chunk * 2);
+  }
+});
+```
+
+向转换流的组件流（可读流和可写流）传入数据和从中获取数据，与本章前面介绍的方法相同：
+
+```js
+async function* ints() {
+  // 每 1000 毫秒生成一个递增的整数
+  for (let i = 0; i < 5; ++i) {
+    yield await new Promise(resolve => setTimeout(resolve, 1000, i));
+  }
+}
+const { writable, readable } = new TransformStream({
+  transform(chunk, controller) {
+    controller.enqueue(chunk * 2);
+  }
+});
+const readableStreamDefaultReader = readable.getReader();
+const writableStreamDefaultWriter = writable.getWriter();
+// 消费者
+(async function () {
+  while (true) {
+    const { done, value } = await readableStreamDefaultReader.read();
+    if (done) {
+      break;
+    } else {
+      console.log(value);
+    }
+  }
+})();
+// 生产者
+(async function () {
+  for await (let chunk of ints()) {
+    await writableStreamDefaultWriter.ready;
+    writableStreamDefaultWriter.write(chunk);
+  }
+  writableStreamDefaultWriter.close();
+})();
+```
+
+### 通过管道连接流
+
+流可以通过管道连接成一串。最常见的用例是使用 pipeThrough()方法把 ReadableStream 接入 TransformStream。从内部看，ReadableStream 先把自己的值传给 TransformStream 内部的 WritableStream，然后执行转换，接着转换后的值又在新的 ReadableStream 上出现。下面的例子将一个整数的 ReadableStream 传入 TransformStream，TransformStream 对每个值做加倍处理：
+
+```js
+async function* ints() {
+  // 每 1000 毫秒生成一个递增的整数
+  for (let i = 0; i < 5; ++i) {
+    yield await new Promise(resolve => setTimeout(resolve, 1000, i));
+  }
+}
+const integerStream = new ReadableStream({
+  async start(controller) {
+    for await (let chunk of ints()) {
+      controller.enqueue(chunk);
+    }
+    controller.close();
+  }
+});
+const doublingStream = new TransformStream({
+  transform(chunk, controller) {
+    controller.enqueue(chunk * 2);
+  }
+});
+// 通过管道连接流
+const pipedStream = integerStream.pipeThrough(doublingStream);
+// 从连接流的输出获得读取器
+const pipedStreamDefaultReader = pipedStream.getReader();
+// 消费者
+(async function () {
+  while (true) {
+    const { done, value } = await pipedStreamDefaultReader.read();
+    if (done) {
+      break;
+    } else {
+      console.log(value);
+    }
+  }
+})();
+// 0
+// 2
+// 4
+// 6
+// 8
+```
+
+另外，使用 pipeTo()方法也可以将 ReadableStream 连接到 WritableStream。整个过程与使用 pipeThrough()类似：
+
+```js
+async function* ints() {
+  // 每 1000 毫秒生成一个递增的整数
+  for (let i = 0; i < 5; ++i) {
+    yield await new Promise(resolve => setTimeout(resolve, 1000, i));
+  }
+}
+const integerStream = new ReadableStream({
+  async start(controller) {
+    for await (let chunk of ints()) {
+      controller.enqueue(chunk);
+    }
+    controller.close();
+  }
+});
+const writableStream = new WritableStream({
+  write(value) {
+    console.log(value);
+  }
+});
+const pipedStream = integerStream.pipeTo(writableStream);
+// 0
+// 1
+// 2
+// 3
+// 4
+```
+
+注意，这里的管道连接操作隐式从 ReadableStream 获得了一个读取器，并把产生的值填充到 WritableStream。
+
+## 计时 API
+
+页面性能始终是 Web 开发者关心的话题。Performance 接口通过 JavaScript API 暴露了浏览器内部的度量指标，允许开发者直接访问这些信息并基于这些信息实现自己想要的功能。这个接口暴露在 window.performance 对象上。所有与页面相关的指标，包括已经定义和将来会定义的，都会存在于这个对象上。
+
+Performance 接口由多个 API 构成：
+
+- High Resolution Time API
+- Performance Timeline API
+- Navigation Timing API
+- User Timing API
+- Resource Timing API
+- Paint Timing API
+
+有关这些规范的更多信息以及新增的性能相关规范，可以关注 W3C 性能工作组的 GitHub 项目页面。
+
+> 注意 浏览器通常支持被废弃的 Level 1 和作为替代的 Level 2。本节尽量介绍 Level 2 级规范。
+
+### High Resolution Time API
+
+Date.now()方法只适用于日期时间相关操作，而且是不要求计时精度的操作。在下面的例子中，函数 foo()调用前后分别记录了一个时间戳：
+
+```js
+const t0 = Date.now();
+foo();
+const t1 = Date.now();
+const duration = t1 – t0;
+console.log(duration);
+```
+
+考虑如下 duration 会包含意外值的情况。
+
+- duration 是 0。Date.now()只有毫秒级精度，如果 foo()执行足够快，则两个时间戳的值会相等。
+- duration 是负值或极大值。如果在 foo()执行时，系统时钟被向后或向前调整了（如切换到夏令时），则捕获的时间戳不会考虑这种情况，因此时间差中会包含这些调整。
+
+为此，必须使用不同的计时 API 来精确且准确地度量时间的流逝。High Resolution Time API 定义了 window.performance.now()，这个方法返回一个微秒精度的浮点值。因此，使用这个方法先后捕获的时间戳更不可能出现相等的情况。而且这个方法可以保证时间戳单调增长。
+
+```js
+const t0 = performance.now();
+const t1 = performance.now();
+console.log(t0); // 1768.625000026077
+console.log(t1); // 1768.6300000059418
+const duration = t1 – t0;
+console.log(duration); // 0.004999979864805937
+```
+
+performance.now()计时器采用相对度量。这个计时器在执行上下文创建时从 0 开始计时。例如，打开页面或创建工作线程时，performance.now()就会从 0 开始计时。由于这个计时器在不同上下文中初始化时可能存在时间差，因此不同上下文之间如果没有共享参照点则不可能直接比较 performance.now()。performance.timeOrigin 属性返回计时器初始化时全局系统时钟的值。
+
+```js
+const relativeTimestamp = performance.now();
+const absoluteTimestamp = performance.timeOrigin + relativeTimestamp;
+console.log(relativeTimestamp); // 244.43500000052154
+console.log(absoluteTimestamp); // 1561926208892.4001
+```
+
+> 注意 通过使用 performance.now()测量 L1 缓存与主内存的延迟差，幽灵漏洞（Spectre）可以执行缓存推断攻击。为弥补这个安全漏洞，所有的主流浏览器有的选择降低 performance.now()的精度，有的选择在时间戳里混入一些随机性。WebKit 博客上有一篇相关主题的不错的文章“[What Spectre and Meltdown Mean For WebKit](https://webkit.org/blog/8048/what-spectre-and-meltdown-mean-for-webkit/)”，作者是 Filip Pizlo。
+
+### Performance Timeline API
+
+Performance Timeline API 使用一套用于度量客户端延迟的工具扩展了 Performance 接口。性能度量将会采用计算结束与开始时间差的形式。这些开始和结束时间会被记录为 DOMHighResTimeStamp 值，而封装这个时间戳的对象是 PerformanceEntry 的实例。
+
+浏览器会自动记录各种 PerformanceEntry 对象，而使用 performance.mark()也可以记录自定义的 PerformanceEntry 对象。在一个执行上下文中被记录的所有性能条目可以通过 performance.getEntries()获取：
+
+```js
+console.log(performance.getEntries());
+// [PerformanceNavigationTiming, PerformanceResourceTiming, ... ]
+```
+
+这个返回的集合代表浏览器的性能时间线（performance timeline）。每个 PerformanceEntry 对象都有 name、entryType、startTime 和 duration 属性：
+
+```js
+const entry = performance.getEntries()[0];
+console.log(entry.name); // "https://foo.com"
+console.log(entry.entryType); // navigation
+console.log(entry.startTime); // 0
+console.log(entry.duration); // 182.36500001512468
+```
+
+不过，PerformanceEntry 实际上是一个抽象基类。所有记录条目虽然都继承 PerformanceEntry，但最终还是如下某个具体类的实例：
+
+- PerformanceMark
+- PerformanceMeasure
+- PerformanceFrameTiming
+- PerformanceNavigationTiming
+- PerformanceResourceTiming
+- PerformancePaintTiming
+
+上面每个类都会增加大量属性，用于描述与相应条目有关的元数据。每个实例的 name 和 entryType 属性会因为各自的类不同而不同。
+
+#### User Timing API
+
+User Timing API 用于记录和分析自定义性能条目。如前所述，记录自定义性能条目要使用 performance.mark()方法：
+
+```js
+performance.mark('foo');
+console.log(performance.getEntriesByType('mark')[0]);
+// PerformanceMark {
+// name: "foo",
+// entryType: "mark",
+// startTime: 269.8800000362098,
+// duration: 0
+// }
+```
+
+在计算开始前和结束后各创建一个自定义性能条目可以计算时间差。最新的标记（mark）会被推到 getEntriesByType()返回数组的开始：
+
+```js
+performance.mark('foo');
+for (let i = 0; i < 1e6; ++i) {}
+performance.mark('bar');
+const [endMark, startMark] = performance.getEntriesByType('mark');
+console.log(startMark.startTime - endMark.startTime); // 1.3299999991431832
+```
+
+除了自定义性能条目，还可以生成 PerformanceMeasure（性能度量）条目，对应由名字作为标识的两个标记之间的持续时间。PerformanceMeasure 的实例由 performance.measure()方法生成：
+
+```js
+performance.mark('foo');
+for (let i = 0; i < 1e6; ++i) {}
+performance.mark('bar');
+performance.measure('baz', 'foo', 'bar');
+const [differenceMark] = performance.getEntriesByType('measure');
+console.log(differenceMark);
+// PerformanceMeasure {
+// name: "baz",
+// entryType: "measure",
+// startTime: 298.9800000214018,
+// duration: 1.349999976810068
+// }
+```
+
+#### Navigation Timing API
+
+Navigation Timing API 提供了高精度时间戳，用于度量当前页面加载速度。浏览器会在导航事件发生时自动记录 PerformanceNavigationTiming 条目。这个对象会捕获大量时间戳，用于描述页面是何时以及如何加载的。
+
+下面的例子计算了 loadEventStart 和 loadEventEnd 时间戳之间的差：
+
+```js
+const [performanceNavigationTimingEntry] = performance.getEntriesByType('navigation');
+console.log(performanceNavigationTimingEntry);
+// PerformanceNavigationTiming {
+// connectEnd: 2.259999979287386
+// connectStart: 2.259999979287386
+// decodedBodySize: 122314
+// domComplete: 631.9899999652989
+// domContentLoadedEventEnd: 300.92499998863786
+// domContentLoadedEventStart: 298.8950000144541
+// domInteractive: 298.88499999651685
+// domainLookupEnd: 2.259999979287386
+// domainLookupStart: 2.259999979287386
+// duration: 632.819999998901
+// encodedBodySize: 21107
+// entryType: "navigation"
+// fetchStart: 2.259999979287386
+// initiatorType: "navigation"
+// loadEventEnd: 632.819999998901
+// loadEventStart: 632.0149999810383
+// name: " https://foo.com "
+// nextHopProtocol: "h2"
+// redirectCount: 0
+// redirectEnd: 0
+// redirectStart: 0
+// requestStart: 7.7099999762140214
+// responseEnd: 130.50999998813495
+// responseStart: 127.16999999247491
+// secureConnectionStart: 0
+// serverTiming: []
+// startTime: 0
+// transferSize: 21806
+// type: "navigate"
+// unloadEventEnd: 132.73999997181818
+// unloadEventStart: 132.41999997990206
+// workerStart: 0
+// }
+console.log(performanceNavigationTimingEntry.loadEventEnd –
+ performanceNavigationTimingEntry.loadEventStart);
+// 0.805000017862767
+```
+
+#### Resource Timing API
+
+Resource Timing API 提供了高精度时间戳，用于度量当前页面加载时请求资源的速度。浏览器会在加载资源时自动记录 PerformanceResourceTiming。这个对象会捕获大量时间戳，用于描述资源加载的速度。
+
+下面的例子计算了加载一个特定资源所花的时间：
+
+```js
+const performanceResourceTimingEntry =
+  performance.getEntriesByType('resource')[0];
+console.log(performanceResourceTimingEntry);
+// PerformanceResourceTiming {
+// connectEnd: 138.11499997973442
+// connectStart: 138.11499997973442
+// decodedBodySize: 33808
+// domainLookupEnd: 138.11499997973442
+// domainLookupStart: 138.11499997973442
+// duration: 0
+// encodedBodySize: 33808
+// entryType: "resource"
+// fetchStart: 138.11499997973442
+// initiatorType: "link"
+// name: "https://static.foo.com/bar.png",
+// nextHopProtocol: "h2"
+// redirectEnd: 0
+// redirectStart: 0
+// requestStart: 138.11499997973442
+// responseEnd: 138.11499997973442
+// responseStart: 138.11499997973442
+// secureConnectionStart: 0
+// serverTiming: []
+// startTime: 138.11499997973442
+// transferSize: 0
+// workerStart: 0
+// }
+console.log(performanceResourceTimingEntry.responseEnd –
+ performanceResourceTimingEntry.requestStart);
+// 493.9600000507198
+```
+
+通过计算并分析不同时间的差，可以更全面地审视浏览器加载页面的过程，发现可能存在的性能瓶颈。
+
+## Web 组件
+
+这里所说的 Web 组件指的是一套用于增强 DOM 行为的工具，包括影子 DOM、自定义元素和 HTML 模板。这一套浏览器 API 特别混乱。
+
+- 并没有统一的“Web Components”规范：每个 Web 组件都在一个不同的规范中定义。
+- 有些 Web 组件如影子 DOM 和自定义元素，已经出现了向后不兼容的版本问题。
+- 浏览器实现极其不一致。
+
+由于存在这些问题，因此使用 Web 组件通常需要引入一个 Web 组件库，比如 [Polymer](https://github.com/Polymer/polymer)。这种库可以作为腻子脚本，模拟浏览器中缺失的 Web 组件。
+
+> 注意 本章只介绍 Web 组件的最新版本。
+
+### HTML 模板
+
+在 Web 组件之前，一直缺少基于 HTML 解析构建 DOM 子树，然后在需要时再把这个子树渲染出来的机制。一种间接方案是使用 innerHTML 把标记字符串转换为 DOM 元素，但这种方式存在严重的安全隐患。另一种间接方案是使用 document.createElement()构建每个元素，然后逐个把它们添加到孤儿根节点（不是添加到 DOM），但这样做特别麻烦，完全与标记无关。
+
+相反，更好的方式是提前在页面中写出特殊标记，让浏览器自动将其解析为 DOM 子树，但跳过渲染。这正是 HTML 模板的核心思想，而`<template>`标签正是为这个目的而生的。下面是一个简单的 HTML 模板的例子：
+
+```html
+<template id="foo">
+  <p>I'm inside a template!</p>
+</template>
+```
+
+#### 使用 DocumentFragment
+
+在浏览器中渲染时，上面例子中的文本不会被渲染到页面上。因为`<template>`的内容不属于活动文档，所以 document.querySelector()等 DOM 查询方法不会发现其中的`<p>`标签。这是因为`<p>`存在于一个包含在 HTML 模板中的 DocumentFragment 节点内。在浏览器中通过开发者工具检查网页内容时，可以看到`<template>`中的 DocumentFragment：
+
+```html
+<template id="foo">
+  #document-fragment
+  <p>I'm inside a template!</p>
+</template>
+```
+
+通过`<template>`元素的 content 属性可以取得这个 DocumentFragment 的引用：
+
+```js
+console.log(document.querySelector('#foo').content); // #document-fragment
+```
+
+此时的 DocumentFragment 就像一个对应子树的最小化 document 对象。换句话说，DocumentFragment 上的 DOM 匹配方法可以查询其子树中的节点：
+
+```js
+const fragment = document.querySelector('#foo').content;
+console.log(document.querySelector('p')); // null
+console.log(fragment.querySelector('p')); // <p>...<p>
+```
+
+DocumentFragment 也是批量向 HTML 中添加元素的高效工具。比如，我们想以最快的方式给某个 HTML 元素添加多个子元素。如果连续调用 document.appendChild()，则不仅费事，还会导致多次布局重排。而使用 DocumentFragment 可以一次性添加所有子节点，最多只会有一次布局重排：
+
+```js
+// 开始状态：
+// <div id="foo"></div>
+//
+// 期待的最终状态：
+// <div id="foo">
+// <p></p>
+// <p></p>
+// <p></p>
+// </div>
+// 也可以使用 document.createDocumentFragment()
+const fragment = new DocumentFragment();
+const foo = document.querySelector('#foo');
+// 为 DocumentFragment 添加子元素不会导致布局重排
+fragment.appendChild(document.createElement('p'));
+fragment.appendChild(document.createElement('p'));
+fragment.appendChild(document.createElement('p'));
+console.log(fragment.children.length); // 3
+foo.appendChild(fragment);
+console.log(fragment.children.length); // 0
+console.log(document.body.innerHTML);
+// <div id="foo">
+// <p></p>
+// <p></p>
+// <p></p>
+// </div>
+```
+
+#### 使用`<template>`标签
