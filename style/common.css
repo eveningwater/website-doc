@@ -540,13 +540,26 @@ a:active {
   margin: 1em 0 1.5em 25px;
 }
 
+.right-content .table-wrapper.table-wrapper-left ul,
+.right-content .table-wrapper.table-wrapper-left ol,
+.right-content .table-wrapper.table-wrapper-left dl {
+  margin: .1em 0 .2em 25px;
+}
+
+.right-content .table-wrapper.table-wrapper-left ul li,
+.right-content .table-wrapper.table-wrapper-left ol li,
+.right-content .table-wrapper.table-wrapper-left dl dd {
+  line-height: 1;
+}
+
 .right-content ul li,
 .right-content ol li,
 .right-content dl dd {
-  font-size: 18px;
+  font-size: 16px;
   margin: 10px 0;
-  color: #4a4c4e;
+  color: #a0a0a0;
   line-height: 2;
+  text-align: left;
 }
 
 .right-content dl dd {
@@ -563,6 +576,12 @@ a:active {
   color: #2396ef;
 }
 
+.right-content .table-wrapper.table-wrapper-left ul li::before,
+.right-content .table-wrapper.table-wrapper-left ol li::before,
+.right-content .table-wrapper.table-wrapper-left dl dt::before {
+  margin-right: 3px;
+}
+
 .right-content ul li::before,
 .right-content ol li::before,
 .right-content dl dt::before {
@@ -572,7 +591,7 @@ a:active {
 }
 
 .right-content ul li::before {
-  content: "□";
+  content: url('../images/sign-dt-ul.png');
 }
 
 .right-content ol li::before {
@@ -582,7 +601,7 @@ a:active {
 .right-content dl dt::before {
   content: "";
   background-repeat: no-repeat;
-  background-image: url("https://www.aulence.com/img/content/sign-dt.png");
+  background-image: url("../images/sign-dt.png");
   background-position: 0 1px;
   background-size: contain;
   margin-right: 4px;
@@ -632,6 +651,11 @@ a:active {
   padding: 12px 16px;
   text-align: center;
   border: 1px solid #aaaaaa;
+}
+
+.right-content .table-wrapper.table-wrapper-left table td,
+.right-content .table-wrapper.table-wrapper-left table th {
+  text-align: left;
 }
 
 .right-content table th {
