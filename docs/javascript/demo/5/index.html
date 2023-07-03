@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工作者线程</title>
+</head>
+<body>
+    <script>
+        // const workerScript = `
+        //     self.onmessage = ({ data }) => console.log(data);
+        // `;
+        // const workerScriptBlob = new Blob([workerScript]);
+        // const workerScriptBlobUrl = URL.createObjectURL(workerScriptBlob);
+        // const worker = new Worker(workerScriptBlobUrl);
+        // worker.postMessage('Blob work script!');
+
+        // 合并写法
+        const worker = new Worker(URL.createObjectURL(new Blob([`self.onmessage = ({data}) => console.log(data);`])));
+        worker.postMessage('Blob work script!')
+    </script>
+</body>
+</html>

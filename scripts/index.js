@@ -317,6 +317,16 @@ function requestContent(contentURL, navList) {
           if ($('#drawIframe')) {
             initPiKaQiu();
           }
+          const allCode = $$('.right-content pre code');
+          if (allCode) {
+            allCode.forEach(code => {
+              if (code.hasAttribute('data-lang')) {
+                const lang = code.getAttribute('data-lang');
+                const text = code.textContent;
+                code.innerHTML = hljs.highlightAuto(text, [lang]).value;
+              }
+            });
+          }
           resolve();
         }
       })
