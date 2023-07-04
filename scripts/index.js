@@ -97,7 +97,9 @@ function renderNavList(data) {
   if (!data.length) return;
   data.forEach(nav => {
     containerHTML += `<li>
-            <a href="javascript:void 0;" data-url=${nav}>${nav}</a>
+            <a href="javascript:void 0;" data-url=${JSON.stringify(
+              nav
+            )}>${nav}</a>
             <div class="tooltip">
                 <div class="arrow"></div>
                 ${nav}
