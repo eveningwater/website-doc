@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demo-4</title>
+</head>
+
+<body>
+    <script>
+        const data = { text: 'hello,vue 3' };
+        let activeEffect = null;
+        const bucket = new WeakMap();
+        const track = (target, key) => {
+            if (!activeEffect) {
+                return;
+            }
+            let depMaps = bucket.get(target);
+            if (!depMaps) {
+                bucket.set(target, (depMaps = new Map()));
+            }
+            let deps = depMaps.get(key);
+            if (!deps) {
+                depMaps.set(key, deps = new Set());
+            }
+            deps.add(activeEffect);
+        }
+        const trigger = (target, key) => {
+            const depMaps = bucket.get(target);
+            if (!depMaps) {
+                return;
+            }
+            const effects = depMaps.get(key);
+            effects && effects.forEach(effect => effect());
+        }
+        const obj = new Proxy(data, {
+            get(target, key) {
+                track(target, key);
+                return target[key];
+            },
+            set(target, key, newVal) {
+                target[key] = newVal;
+                trigger(target, key);
+            }
+        });
+        const effect = (fn) => {
+            activeEffect = fn;
+            fn();
+        };
+        effect(() => {
+            document.body.innerText = obj.text + '   ' + (obj.a ? obj.a : '');
+        });
+        setTimeout(() => {
+            obj.text = 'hello,eveningwater';
+        }, 1000);
+        setTimeout(() => {
+            obj.a = 'a';
+        }, 1000);
+    </script>
+</body>
+
+</html>

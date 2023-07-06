@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demo-2</title>
+</head>
+
+<body>
+    <script>
+        const data = { text: 'hello,vue3' };
+        const bucket = new Set();
+        let activeEffect = null;
+        const obj = new Proxy(data, {
+            get(target, key) {
+                if (activeEffect) {
+                    bucket.add(activeEffect);
+                }
+                return target[key];
+            },
+            set(target, key, newVal) {
+                target[key] = newVal;
+                bucket.forEach(fn => fn());
+                return true;
+            }
+        });
+        const effect = (fn) => {
+            activeEffect = fn;
+            fn();
+        };
+        effect(() => {
+            document.body.innerText = obj.text;
+        });
+        setTimeout(() => {
+            obj.text = 'hello,eveningwater';
+        }, 1000);
+    </script>
+</body>
+
+</html>

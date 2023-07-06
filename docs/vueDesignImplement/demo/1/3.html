@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demo-3</title>
+</head>
+
+<body>
+    <script>
+        const obj = {
+            tag: 'div',
+            children: [{ tag: 'span', children: 'hello,world' }]
+        };
+        function render(data, container) {
+            const el = document.createElement(data.tag);
+            if (typeof data.children === 'string') {
+                el.appendChild(document.createTextNode(data.children));
+            } else if (data.children) {
+                data.children.forEach(child => render(child, el));
+            }
+            container.appendChild(el);
+        }
+        render(obj, document.body);
+    </script>
+</body>
+
+</html>

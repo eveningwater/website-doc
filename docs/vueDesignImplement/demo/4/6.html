@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demo-4</title>
+</head>
+
+<body>
+    <script>
+        const data = { foo: true, bar: true };
+        let activeEffect = null;
+        const bucket = new WeakMap();
+        const effectStack = [];
+        const cleanup = (effectFn) => {
+            for (let i = 0; i < effectFn.deps.length; i++) {
+                const dep = effectFn.deps[i];
+                dep.delete(effectFn);
+            }
+            effectFn.deps.length = 0;
+        }
+        const track = (target, key) => {
+            if (!activeEffect) {
+                return;
+            }
+            let depMaps = bucket.get(target);
+            if (!depMaps) {
+                bucket.set(target, (depMaps = new Map()));
+            }
+            let deps = depMaps.get(key);
+            if (!deps) {
+                depMaps.set(key, deps = new Set());
+            }
+            deps.add(activeEffect);
+            activeEffect.deps.push(deps);
+        }
+
+        const trigger = (target, key) => {
+            const depMaps = bucket.get(target);
+            if (!depMaps) {
+                return;
+            }
+            const effects = depMaps.get(key);
+            const effectRuns = new Set(effects);
+            effectRuns.forEach(effect => effect());
+        }
+        const obj = new Proxy(data, {
+            get(target, key) {
+                track(target, key);
+                return target[key];
+            },
+            set(target, key, newVal) {
+                target[key] = newVal;
+                trigger(target, key);
+            }
+        });
+        const effect = (fn) => {
+            const effectFn = () => {
+                cleanup(effectFn);
+                activeEffect = effectFn;
+                effectStack.push(effectFn)
+                fn();
+                effectStack.pop();
+                activeEffect = effectStack[effectStack.length - 1];
+            }
+            effectFn.deps = [];
+            effectFn();
+        };
+        // 全局变量
+        let temp1, temp2;
+        // effectFn1 嵌套了 effectFn2
+        effect(function effectFn1() {
+            console.log('effectFn1 执行');
+            effect(function effectFn2() {
+                console.log('effectFn2 执行');
+                // 在 effectFn2 中读取 obj.bar 属性
+                temp2 = obj.bar;
+            });
+            // 在 effectFn1 中读取 obj.foo 属性
+            temp1 = obj.foo;
+        });
+        //
+        obj.foo = false;
+    </script>
+</body>
+
+</html>
