@@ -516,19 +516,19 @@ location 是最有用的 BOM 对象之一，提供了当前窗口中加载文档
 
 假设浏览器当前加载的 URL 是 `http://foouser:barpassword@www.wrox.com:80/WileyCDA/?q=javascript#contents`，location 对象的内容如下表所示。
 
-| 属 性             | 值                                                       | 说 明                                                        |
-| ----------------- | -------------------------------------------------------- | ------------------------------------------------------------ |
-| location.hash     | "#contents"                                              | URL 散列值（井号后跟零或多个字符），如果没有则为空字符串     |
-| location.host     | "www.wrox.com:80"                                        | 服务器名及端口号                                             |
-| location.hostname | "www.wrox.com"                                           | 服务器名                                                     |
-| location.href     | "http://www.wrox.com:80/WileyCDA/?q=javascript#contents" | 当前加载页面的完整 URL。location 的 toString()方法返回这个值 |
-| location.pathname | "/WileyCDA/"                                             | URL 中的路径和（或）文件名                                   |
-| location.port     | "80"                                                     | 请求的端口。如果 URL 中没有端口，则返回空字符串              |
-| location.protocol | "http:"                                                  | 页面使用的协议。通常是"http:"或"https:"                      |
-| location.search   | "?q=javascript"                                          | URL 的查询字符串。这个字符串以问号开头                       |
-| location.username | "foouser"                                                | 域名前指定的用户名                                           |
-| location.password | "barpassword"                                            | 域名前指定的密码                                             |
-| location.origin   | "http://www.wrox.com"                                    | URL 的源地址。只读                                           |
+| 属 性             | 值                                                         | 说 明                                                        |
+| ----------------- | ---------------------------------------------------------- | ------------------------------------------------------------ |
+| location.hash     | "#contents"                                                | URL 散列值（井号后跟零或多个字符），如果没有则为空字符串     |
+| location.host     | "`www.wrox.com:80`"                                        | 服务器名及端口号                                             |
+| location.hostname | "`www.wrox.com`"                                           | 服务器名                                                     |
+| location.href     | "`http://www.wrox.com:80/WileyCDA/?q=javascript#contents`" | 当前加载页面的完整 URL。location 的 toString()方法返回这个值 |
+| location.pathname | "`/WileyCDA/`"                                             | URL 中的路径和（或）文件名                                   |
+| location.port     | "80"                                                       | 请求的端口。如果 URL 中没有端口，则返回空字符串              |
+| location.protocol | "http:"                                                    | 页面使用的协议。通常是"http:"或"https:"                      |
+| location.search   | "?q=javascript"                                            | URL 的查询字符串。这个字符串以问号开头                       |
+| location.username | "foouser"                                                  | 域名前指定的用户名                                           |
+| location.password | "barpassword"                                              | 域名前指定的密码                                             |
+| location.origin   | "`http://www.wrox.com`"                                    | URL 的源地址。只读                                           |
 
 ### 查询字符串
 
@@ -645,7 +645,7 @@ location.port = 8080;
 </html>
 ```
 
-浏览器加载这个页面 1 秒之后会重定向到 www.wrox.com。此时，“后退”按钮是禁用状态，即不能返回这个示例页面，除非手动输入完整的 URL。
+浏览器加载这个页面 1 秒之后会重定向到 `www.wrox.com`。此时，“后退”按钮是禁用状态，即不能返回这个示例页面，除非手动输入完整的 URL。
 
 最后一个修改地址的方法是 reload()，它能重新加载当前显示的页面。调用 reload()而不传参数，页面会以最有效的方式重新加载。也就是说，如果页面自上次请求以来没有修改过，浏览器可能会从缓存中加载页面。如果想强制从服务器重新加载，可以像下面这样给 reload()传个 true：
 
